@@ -2,7 +2,9 @@ import { transformRoutesToMap } from '@/utils';
 
 const API_ENDPOINTS = {
   auth: {
-    login: null,
+    local: {
+      register: null,
+    },
   },
   clients: {
     ':id': null,
@@ -11,6 +13,7 @@ const API_ENDPOINTS = {
 
 const PUBLIC_ROUTES = {
   login: null,
+  register: null,
 };
 
 export const PRIVATE_ROUTES = {
