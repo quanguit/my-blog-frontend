@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { theme } from '@/theme';
 
 import './globals.css';
+import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <Providers>{children}</Providers>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
