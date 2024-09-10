@@ -7,7 +7,7 @@ export async function fetcher<TData, TBody = undefined>({
   url: string;
   body?: TBody;
   options?: RequestInit['headers'];
-  method: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}${url}`, {
     method,

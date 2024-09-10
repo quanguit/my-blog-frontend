@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input } from '@/components';
-import { PasswordInput } from '@/components/PasswordInput';
+import { PasswordInput } from '@/components/password-input';
 import { allRoutes } from '@/constants';
 import { registerSchema, RegiterInputDTO } from '@/features/auth/dtos';
 import { useRegisterMutation } from '@/features/auth/mutations/useRegisterMutation';
