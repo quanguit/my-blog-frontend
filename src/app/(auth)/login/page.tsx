@@ -4,31 +4,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 import { Form, Input, PasswordInput } from '@/components';
 import { allRoutes } from '@/constants';
+import { LoginInputDTO, loginSchema } from '@/features/auth/dtos';
 import { useLoginMutation } from '@/features/auth/mutations';
-
-const schema = yup
-  .object({
-    identifier: yup.string().required(),
-    password: yup.string().required(),
-  })
-  .required();
-
-type Schema = yup.InferType<typeof schema>;
 
 const LoginPage = () => {
   const { mutate } = useLoginMutation();
 
-  const methods = useForm<Schema>({
-    resolver: yupResolver(schema),
+  const methods = useForm<LoginInputDTO>({
+    resolver: yupResolver(loginSchema),
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<Schema> = (data) =>
+  const onSubmit: SubmitHandler<LoginInputDTO> = (data) =>
     mutate(data, {
       onSuccess: () => {
         alert('Login successful');

@@ -4,35 +4,25 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 import { Form, Input } from '@/components';
 import { PasswordInput } from '@/components/PasswordInput';
 import { allRoutes } from '@/constants';
+import { registerSchema, RegiterInputDTO } from '@/features/auth/dtos';
 import { useRegisterMutation } from '@/features/auth/mutations/useRegisterMutation';
-
-const schema = yup
-  .object({
-    username: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-  })
-  .required();
-
-type Schema = yup.InferType<typeof schema>;
 
 const RegisterPage = () => {
   const { mutate } = useRegisterMutation();
 
-  const methods = useForm<Schema>({
-    resolver: yupResolver(schema),
+  const methods = useForm<RegiterInputDTO>({
+    resolver: yupResolver(registerSchema),
   });
 
   const { handleSubmit, watch } = methods;
 
   const [username, email, password] = watch(['username', 'email', 'password']);
 
-  const onSubmit: SubmitHandler<Schema> = (data) => mutate(data);
+  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) => mutate(data);
 
   return (
     <Container

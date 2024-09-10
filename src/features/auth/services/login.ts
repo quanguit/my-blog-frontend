@@ -2,10 +2,10 @@ import { apiEndpoints } from '@/constants';
 import { fetcher } from '@/services';
 import { ResponseDataType } from '@/types';
 
-import { AuthResponseDto, LoginDto } from '../dtos';
+import { AuthResponseDTO, LoginInputDTO } from '../dtos';
 
-export const login = (body: LoginDto) =>
-  fetcher<ResponseDataType<AuthResponseDto>, LoginDto>({
+export const login = (body: LoginInputDTO) =>
+  fetcher<ResponseDataType<AuthResponseDTO>, LoginInputDTO>({
     method: 'POST',
     url: apiEndpoints.auth.local.toURL(),
     body,
