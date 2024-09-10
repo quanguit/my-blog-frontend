@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
 
-export default function HomePage() {
+export default function ContactPage() {
   return (
     <Box>
-      <Typography>Home Page</Typography>
+      <Typography>Contact Page</Typography>
     </Box>
   );
 }
