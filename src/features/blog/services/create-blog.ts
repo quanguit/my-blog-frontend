@@ -7,6 +7,6 @@ import { BlogDto, CreateBlogDto } from '../dtos';
 export const createBlog = (body: CreateBlogDto) =>
   fetcher<ResponseDataType<BlogDto>, CreateBlogDto>({
     method: 'POST',
-    url: apiEndpoints.clients.toURL(),
+    url: apiEndpoints.blog.toURL(),
     body,
   });

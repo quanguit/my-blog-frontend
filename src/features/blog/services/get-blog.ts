@@ -7,5 +7,5 @@ import { BlogDto } from '../dtos';
 export const getBlog = (id: string) =>
   fetcher<ResponseDataType<BlogDto>>({
     method: 'GET',
-    url: apiEndpoints.clients[':id'].toURL({ id }),
+    url: apiEndpoints.blog[':id'].toURL({ id }),
   });

@@ -6,7 +6,7 @@ const API_ENDPOINTS = {
       register: null,
     },
   },
-  clients: {
+  blog: {
     ':id': null,
   },
 };
@@ -18,6 +18,10 @@ const PUBLIC_ROUTES = {
 
 export const PRIVATE_ROUTES = {
   '/': null,
+  blog: {
+    ':id': null,
+  },
+  contact: null,
 };
 
 const ALL_ROUTES = {

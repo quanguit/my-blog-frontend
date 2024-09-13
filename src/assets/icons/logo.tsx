@@ -1,6 +1,6 @@
-import { SvgIcon, SvgIconProps } from '@mui/material';
+import { SvgIcon } from '@mui/material';
 
-export interface LogoProps extends SvgIconProps {}
+import { LogoProps } from './types';
 
 export function Logo(props: LogoProps) {
   return (

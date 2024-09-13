@@ -7,6 +7,6 @@ import { BlogDto, UpdateBlogDto } from '../dtos';
 export const updateBlog = (body: UpdateBlogDto) =>
   fetcher<ResponseDataType<BlogDto>, UpdateBlogDto>({
     method: 'PUT',
-    url: apiEndpoints.clients[':id'].toURL({ id: body.id }),
+    url: apiEndpoints.blog[':id'].toURL({ id: body.id }),
     body,
   });

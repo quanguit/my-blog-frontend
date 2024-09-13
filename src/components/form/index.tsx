@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, BoxProps } from '@mui/material';
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 
