@@ -3,10 +3,10 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import type { Metadata } from 'next';
 
+import { ReactQueryProvider } from '@/providers';
 import { theme } from '@/theme';
 
 import './global.css';
-import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'Meta Blog',
@@ -24,7 +24,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Providers>{children}</Providers>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
