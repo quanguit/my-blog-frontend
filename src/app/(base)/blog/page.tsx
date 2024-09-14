@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Grid2 as Grid } from '@mui/material';
+import { Box, Button, Grid2 as Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import img1 from '@/assets/images/img1.jpg';
@@ -10,6 +10,9 @@ import { allRoutes, posts } from '@/constants';
 export default function BlogPage() {
   return (
     <Flex flexDirection="column">
+      <Typography variant="h4" align="center" fontWeight={700} mb={4}>
+        All Blogs
+      </Typography>
       <Box
         position="relative"
         borderRadius={2}

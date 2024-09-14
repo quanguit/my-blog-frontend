@@ -7,8 +7,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input, PasswordInput } from '@/components';
 import { allRoutes } from '@/constants';
-import { LoginInputDTO, loginSchema } from '@/features/auth/dtos';
-import { useLoginMutation } from '@/features/auth/mutations';
+import { LoginInputDTO, loginSchema } from '@/restful-api/auth/dtos';
+import { useLoginMutation } from '@/restful-api/auth/mutations';
 
 const LoginPage = () => {
   const { mutate } = useLoginMutation();
@@ -21,7 +21,8 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<LoginInputDTO> = (data) =>
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        console.log(res);
         alert('Login successful');
       },
     });
@@ -40,7 +41,7 @@ const LoginPage = () => {
         Welcome Back! Log In to Access My Blog
       </Typography>
       <Typography variant="body1" align="center" mb={3} fontWeight={500}>
-        Access your personal dashboard, stay updated, and connect with my latest
+        Access my personal dashboard, stay updated, and connect with my latest
         posts.
       </Typography>
       <Form

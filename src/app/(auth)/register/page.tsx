@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Form, Input } from '@/components';
 import { PasswordInput } from '@/components/password-input';
 import { allRoutes } from '@/constants';
-import { registerSchema, RegiterInputDTO } from '@/features/auth/dtos';
-import { useRegisterMutation } from '@/features/auth/mutations/useRegisterMutation';
+import { registerSchema, RegiterInputDTO } from '@/restful-api/auth/dtos';
+import { useRegisterMutation } from '@/restful-api/auth/mutations/useRegisterMutation';
 
 const RegisterPage = () => {
   const { mutate } = useRegisterMutation();
