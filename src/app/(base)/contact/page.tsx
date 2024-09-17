@@ -15,6 +15,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import img1 from '@/assets/images/img1.jpg';
@@ -62,19 +63,44 @@ export default function ContactPage() {
           applications in the future perfectly.
         </Typography>
         <Stack direction="row" alignItems="center">
-          <IconButton>
+          <IconButton
+            component={Link}
+            href={process.env.NEXT_PUBLIC_FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FacebookIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            component={Link}
+            href={process.env.NEXT_PUBLIC_INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <InstagramIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            component={Link}
+            href={process.env.NEXT_PUBLIC_LINKED_IN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <LinkedInIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            component={Link}
+            href={process.env.NEXT_PUBLIC_WHATS_APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <WhatsAppIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            component={Link}
+            href={process.env.NEXT_PUBLIC_GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <GitHubIcon />
           </IconButton>
         </Stack>
