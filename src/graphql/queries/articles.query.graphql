@@ -1,0 +1,20 @@
+query Articles(
+  $filters: ArticleFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+  $publicationState: PublicationState
+) {
+  articles(
+    filters: $filters
+    pagination: $pagination
+    sort: $sort
+    publicationState: $publicationState
+  ) {
+    data {
+      ...Article
+    }
+    meta {
+      ...Meta
+    }
+  }
+}

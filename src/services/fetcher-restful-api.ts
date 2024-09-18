@@ -1,11 +1,11 @@
-export async function fetcher<TData, TBody = undefined>({
+export async function fetcherRestful<TData, TVariables = undefined>({
   url,
   body,
   options,
   method,
 }: {
   url: string;
-  body?: TBody;
+  body?: TVariables;
   options?: RequestInit['headers'];
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }) {
@@ -17,14 +17,10 @@ export async function fetcher<TData, TBody = undefined>({
     },
     body: JSON.stringify(body),
   });
-
   const json = await res.json();
-
   if (json.errors) {
     const { message } = json;
-
     throw new Error(message);
   }
-
   return json as TData;
 }

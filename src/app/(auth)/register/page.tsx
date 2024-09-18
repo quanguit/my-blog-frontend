@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Form, Input } from '@/components';
 import { PasswordInput } from '@/components/password-input';
 import { allRoutes } from '@/constants';
+import { useRegisterMutation } from '@/generated/graphql';
 import { registerSchema, RegiterInputDTO } from '@/restful-api/auth/dtos';
-import { useRegisterMutation } from '@/restful-api/auth/mutations/useRegisterMutation';
 
 const RegisterPage = () => {
   const { mutate } = useRegisterMutation();
@@ -22,7 +22,20 @@ const RegisterPage = () => {
 
   const [username, email, password] = watch(['username', 'email', 'password']);
 
-  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) => mutate(data);
+  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) =>
+    mutate(
+      {
+        input: data,
+      },
+      {
+        onSuccess: (data) => {
+          console.log('data: ', data);
+        },
+        onError: (data) => {
+          console.log('data1: ', data);
+        },
+      },
+    );
 
   return (
     <Container

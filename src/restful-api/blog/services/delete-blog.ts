@@ -1,8 +1,8 @@
 import { apiEndpoints } from '@/constants';
-import { fetcher } from '@/services';
+import { fetcherRestful } from '@/services';
 
 export const deleteBlog = ({ id }: { id: string }) =>
-  fetcher<void>({
+  fetcherRestful<void>({
     method: 'DELETE',
     url: apiEndpoints.blog[':id'].toURL({ id }),
   });

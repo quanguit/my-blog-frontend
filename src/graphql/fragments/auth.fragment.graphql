@@ -1,0 +1,11 @@
+fragment Auth on UsersPermissionsLoginPayload {
+  jwt
+  user {
+    id
+    username
+    email
+    role {
+      name
+    }
+  }
+}
