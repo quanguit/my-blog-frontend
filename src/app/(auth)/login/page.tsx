@@ -7,8 +7,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input, PasswordInput } from '@/components';
 import { allRoutes } from '@/constants';
+import { useLoginMutation } from '@/generated/graphql';
 import { LoginInputDTO, loginSchema } from '@/restful-api/auth/dtos';
-import { useLoginMutation } from '@/restful-api/auth/mutations';
 
 const LoginPage = () => {
   const { mutate } = useLoginMutation();
@@ -20,12 +20,16 @@ const LoginPage = () => {
   const { handleSubmit } = methods;
 
   const onSubmit: SubmitHandler<LoginInputDTO> = (data) =>
-    mutate(data, {
-      onSuccess: (res) => {
-        console.log(res);
-        alert('Login successful');
+    mutate(
+      {
+        input: data,
       },
-    });
+      {
+        onSuccess: (res) => {
+          console.log(res);
+        },
+      },
+    );
 
   return (
     <Container

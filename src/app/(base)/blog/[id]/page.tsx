@@ -3,12 +3,25 @@ import dayjs from 'dayjs';
 
 import img1 from '@/assets/images/img1.jpg';
 import { CkContent, Flex } from '@/components';
+import { useArticlesQuery } from '@/generated/graphql';
 
-export default function BlogDetails() {
+export default async function BlogDetails({
+  params: { slug },
+}: {
+  params: { slug: string };
+}) {
+  const { articles } = await useArticlesQuery.fetcher({
+    filters: {
+      slug: {
+        eq: slug,
+      },
+    },
+  })();
+
   return (
     <Flex flexDirection="column" alignItems="start">
       <Chip
-        label={'Technology'}
+        label="Technology"
         variant="filled"
         color="primary"
         sx={{ mb: 2 }}

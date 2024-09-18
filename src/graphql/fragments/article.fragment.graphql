@@ -1,0 +1,20 @@
+fragment Article on ArticleEntity {
+  id
+  attributes {
+    title
+    slug
+    content
+    description
+    image {
+      data {
+        ...File
+      }
+    }
+    createdAt
+    categories {
+      data {
+        ...Category
+      }
+    }
+  }
+}
