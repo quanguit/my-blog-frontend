@@ -1,2 +1,2 @@
-export * from './appbar';
+export * from './app-bar';
 export * from './footer';

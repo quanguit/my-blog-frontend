@@ -18,7 +18,7 @@ import {
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import img1 from '@/assets/images/img1.jpg';
+import avatar from '@/assets/images/avatar.jpg';
 import { Flex, Form, Input } from '@/components';
 import { LoginInputDTO, loginSchema } from '@/restful-api/auth/dtos';
 
@@ -44,7 +44,7 @@ export default function ContactPage() {
         mb={10}
       >
         <Stack direction="row" spacing={2} alignItems="center">
-          <Avatar alt="Quang" src={img1.src} sx={{ width: 64, height: 64 }} />
+          <Avatar alt="Quang" src={avatar.src} sx={{ width: 64, height: 64 }} />
           <Stack>
             <Typography variant="h6" fontWeight={700}>
               Quang Do

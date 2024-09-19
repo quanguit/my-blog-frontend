@@ -48,7 +48,7 @@ export type Article = {
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description: Scalars['String']['output'];
-  image?: Maybe<UploadFileEntityResponse>;
+  image: UploadFileEntityResponse;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
@@ -109,6 +109,46 @@ export type ArticleRelationResponseCollection = {
   data: Array<ArticleEntity>;
 };
 
+export type Banner = {
+  __typename?: 'Banner';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  image: UploadFileEntityResponse;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type BannerEntity = {
+  __typename?: 'BannerEntity';
+  attributes?: Maybe<Banner>;
+  id?: Maybe<Scalars['ID']['output']>;
+};
+
+export type BannerEntityResponse = {
+  __typename?: 'BannerEntityResponse';
+  data?: Maybe<BannerEntity>;
+};
+
+export type BannerEntityResponseCollection = {
+  __typename?: 'BannerEntityResponseCollection';
+  data: Array<BannerEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type BannerFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<BannerFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<BannerFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<BannerFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type BannerInput = {
+  image?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type BooleanFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
@@ -138,7 +178,6 @@ export type Category = {
   __typename?: 'Category';
   articles?: Maybe<ArticleRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description: Scalars['String']['output'];
   name: Scalars['String']['output'];
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
@@ -173,7 +212,6 @@ export type CategoryFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CategoryFiltersInput>>>;
   articles?: InputMaybe<ArticleFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CategoryFiltersInput>;
@@ -185,7 +223,6 @@ export type CategoryFiltersInput = {
 
 export type CategoryInput = {
   articles?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -254,6 +291,7 @@ export type FloatFilterInput = {
 
 export type GenericMorph =
   | Article
+  | Banner
   | Category
   | I18NLocale
   | UploadFile
@@ -378,6 +416,7 @@ export type Mutation = {
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
   createArticle?: Maybe<ArticleEntityResponse>;
+  createBanner?: Maybe<BannerEntityResponse>;
   createCategory?: Maybe<CategoryEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -386,6 +425,7 @@ export type Mutation = {
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteArticle?: Maybe<ArticleEntityResponse>;
+  deleteBanner?: Maybe<BannerEntityResponse>;
   deleteCategory?: Maybe<CategoryEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -405,6 +445,7 @@ export type Mutation = {
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   updateArticle?: Maybe<ArticleEntityResponse>;
+  updateBanner?: Maybe<BannerEntityResponse>;
   updateCategory?: Maybe<CategoryEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -424,6 +465,10 @@ export type MutationChangePasswordArgs = {
 
 export type MutationCreateArticleArgs = {
   data: ArticleInput;
+};
+
+export type MutationCreateBannerArgs = {
+  data: BannerInput;
 };
 
 export type MutationCreateCategoryArgs = {
@@ -447,6 +492,10 @@ export type MutationCreateUsersPermissionsUserArgs = {
 };
 
 export type MutationDeleteArticleArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type MutationDeleteBannerArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -505,6 +554,11 @@ export type MutationResetPasswordArgs = {
 
 export type MutationUpdateArticleArgs = {
   data: ArticleInput;
+  id: Scalars['ID']['input'];
+};
+
+export type MutationUpdateBannerArgs = {
+  data: BannerInput;
   id: Scalars['ID']['input'];
 };
 
@@ -570,6 +624,8 @@ export type Query = {
   __typename?: 'Query';
   article?: Maybe<ArticleEntityResponse>;
   articles?: Maybe<ArticleEntityResponseCollection>;
+  banner?: Maybe<BannerEntityResponse>;
+  banners?: Maybe<BannerEntityResponseCollection>;
   categories?: Maybe<CategoryEntityResponseCollection>;
   category?: Maybe<CategoryEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
@@ -591,6 +647,17 @@ export type QueryArticleArgs = {
 
 export type QueryArticlesArgs = {
   filters?: InputMaybe<ArticleFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type QueryBannerArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type QueryBannersArgs = {
+  filters?: InputMaybe<BannerFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -1064,9 +1131,8 @@ export type ArticleFragment = {
     title: string;
     slug?: string | null;
     content?: string | null;
-    description: string;
     createdAt?: any | null;
-    image?: {
+    image: {
       __typename?: 'UploadFileEntityResponse';
       data?: {
         __typename?: 'UploadFileEntity';
@@ -1080,7 +1146,7 @@ export type ArticleFragment = {
           name: string;
         } | null;
       } | null;
-    } | null;
+    };
     categories?: {
       __typename?: 'CategoryRelationResponseCollection';
       data: Array<{
@@ -1089,7 +1155,6 @@ export type ArticleFragment = {
         attributes?: {
           __typename?: 'Category';
           name: string;
-          description: string;
           slug?: string | null;
           createdAt?: any | null;
         } | null;
@@ -1110,13 +1175,36 @@ export type AuthFragment = {
   };
 };
 
+export type BannerFragment = {
+  __typename?: 'BannerEntity';
+  id?: string | null;
+  attributes?: {
+    __typename?: 'Banner';
+    createdAt?: any | null;
+    image: {
+      __typename?: 'UploadFileEntityResponse';
+      data?: {
+        __typename?: 'UploadFileEntity';
+        id?: string | null;
+        attributes?: {
+          __typename?: 'UploadFile';
+          url: string;
+          width?: number | null;
+          height?: number | null;
+          alternativeText?: string | null;
+          name: string;
+        } | null;
+      } | null;
+    };
+  } | null;
+};
+
 export type CategoryFragment = {
   __typename?: 'CategoryEntity';
   id?: string | null;
   attributes?: {
     __typename?: 'Category';
     name: string;
-    description: string;
     slug?: string | null;
     createdAt?: any | null;
   } | null;
@@ -1206,9 +1294,8 @@ export type ArticlesQuery = {
         title: string;
         slug?: string | null;
         content?: string | null;
-        description: string;
         createdAt?: any | null;
-        image?: {
+        image: {
           __typename?: 'UploadFileEntityResponse';
           data?: {
             __typename?: 'UploadFileEntity';
@@ -1222,7 +1309,7 @@ export type ArticlesQuery = {
               name: string;
             } | null;
           } | null;
-        } | null;
+        };
         categories?: {
           __typename?: 'CategoryRelationResponseCollection';
           data: Array<{
@@ -1231,7 +1318,6 @@ export type ArticlesQuery = {
             attributes?: {
               __typename?: 'Category';
               name: string;
-              description: string;
               slug?: string | null;
               createdAt?: any | null;
             } | null;
@@ -1252,6 +1338,46 @@ export type ArticlesQuery = {
   } | null;
 };
 
+export type BannersQueryVariables = Exact<{
+  filters?: InputMaybe<BannerFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<
+    | Array<InputMaybe<Scalars['String']['input']>>
+    | InputMaybe<Scalars['String']['input']>
+  >;
+  publicationState?: InputMaybe<PublicationState>;
+}>;
+
+export type BannersQuery = {
+  __typename?: 'Query';
+  banners?: {
+    __typename?: 'BannerEntityResponseCollection';
+    data: Array<{
+      __typename?: 'BannerEntity';
+      id?: string | null;
+      attributes?: {
+        __typename?: 'Banner';
+        createdAt?: any | null;
+        image: {
+          __typename?: 'UploadFileEntityResponse';
+          data?: {
+            __typename?: 'UploadFileEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'UploadFile';
+              url: string;
+              width?: number | null;
+              height?: number | null;
+              alternativeText?: string | null;
+              name: string;
+            } | null;
+          } | null;
+        };
+      } | null;
+    }>;
+  } | null;
+};
+
 export const FileFragmentDoc = `
     fragment File on UploadFileEntity {
   id
@@ -1269,9 +1395,7 @@ export const CategoryFragmentDoc = `
   id
   attributes {
     name
-    description
     slug
-    description
     createdAt
   }
 }
@@ -1283,7 +1407,6 @@ export const ArticleFragmentDoc = `
     title
     slug
     content
-    description
     image {
       data {
         ...File
@@ -1308,6 +1431,19 @@ export const AuthFragmentDoc = `
     role {
       name
     }
+  }
+}
+    `;
+export const BannerFragmentDoc = `
+    fragment Banner on BannerEntity {
+  id
+  attributes {
+    image {
+      data {
+        ...File
+      }
+    }
+    createdAt
   }
 }
     `;
@@ -1486,6 +1622,87 @@ useArticlesQuery.fetcher = (
 ) =>
   fetcher<ArticlesQuery, ArticlesQueryVariables>(
     ArticlesDocument,
+    variables,
+    options,
+  );
+
+export const BannersDocument = `
+    query Banners($filters: BannerFiltersInput, $pagination: PaginationArg, $sort: [String], $publicationState: PublicationState) {
+  banners(
+    filters: $filters
+    pagination: $pagination
+    sort: $sort
+    publicationState: $publicationState
+  ) {
+    data {
+      ...Banner
+    }
+  }
+}
+    ${BannerFragmentDoc}
+${FileFragmentDoc}`;
+
+export const useBannersQuery = <TData = BannersQuery, TError = unknown>(
+  variables?: BannersQueryVariables,
+  options?: Omit<UseQueryOptions<BannersQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<BannersQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<BannersQuery, TError, TData>({
+    queryKey: variables === undefined ? ['Banners'] : ['Banners', variables],
+    queryFn: fetcher<BannersQuery, BannersQueryVariables>(
+      BannersDocument,
+      variables,
+    ),
+    ...options,
+  });
+};
+
+useBannersQuery.getKey = (variables?: BannersQueryVariables) =>
+  variables === undefined ? ['Banners'] : ['Banners', variables];
+
+export const useInfiniteBannersQuery = <
+  TData = InfiniteData<BannersQuery>,
+  TError = unknown,
+>(
+  variables: BannersQueryVariables,
+  options: Omit<
+    UseInfiniteQueryOptions<BannersQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseInfiniteQueryOptions<BannersQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useInfiniteQuery<BannersQuery, TError, TData>(
+    (() => {
+      const { queryKey: optionsQueryKey, ...restOptions } = options;
+      return {
+        queryKey:
+          (optionsQueryKey ?? variables === undefined)
+            ? ['Banners.infinite']
+            : ['Banners.infinite', variables],
+        queryFn: (metaData) =>
+          fetcher<BannersQuery, BannersQueryVariables>(BannersDocument, {
+            ...variables,
+            ...(metaData.pageParam ?? {}),
+          })(),
+        ...restOptions,
+      };
+    })(),
+  );
+};
+
+useInfiniteBannersQuery.getKey = (variables?: BannersQueryVariables) =>
+  variables === undefined
+    ? ['Banners.infinite']
+    : ['Banners.infinite', variables];
+
+useBannersQuery.fetcher = (
+  variables?: BannersQueryVariables,
+  options?: RequestInit['headers'],
+) =>
+  fetcher<BannersQuery, BannersQueryVariables>(
+    BannersDocument,
     variables,
     options,
   );

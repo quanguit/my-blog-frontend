@@ -2,9 +2,7 @@ fragment Category on CategoryEntity {
   id
   attributes {
     name
-    description
     slug
-    description
     createdAt
   }
 }

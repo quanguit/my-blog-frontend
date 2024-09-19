@@ -46,18 +46,18 @@ export function Card({
           mb={2}
         >
           <Image
-            src={image}
+            src={`http://localhost:1337${image}`}
             fill
             sizes="100vw"
             style={{
               objectFit: 'cover',
             }}
             alt={title}
-            placeholder="blur"
+            // placeholder="blur"
           />
         </Box>
         <Box p={1}>
-          <Stack direction="row" spacing={2} mb={2}>
+          <Stack direction="row" spacing={2} mb={2} overflow="hidden">
             {tags.map((tag) => (
               <Chip
                 key={tag}
@@ -71,7 +71,6 @@ export function Card({
           <Typography
             variant="h6"
             fontWeight={700}
-            mb={2}
             height={40}
             lineHeight={1}
             overflow="hidden"

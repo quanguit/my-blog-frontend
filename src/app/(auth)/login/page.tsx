@@ -19,7 +19,7 @@ const LoginPage = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<LoginInputDTO> = (data) =>
+  const onSubmit: SubmitHandler<LoginInputDTO> = (data) => {
     mutate(
       {
         input: data,
@@ -30,6 +30,7 @@ const LoginPage = () => {
         },
       },
     );
+  };
 
   return (
     <Container

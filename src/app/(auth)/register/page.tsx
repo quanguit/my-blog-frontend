@@ -22,7 +22,7 @@ const RegisterPage = () => {
 
   const [username, email, password] = watch(['username', 'email', 'password']);
 
-  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) =>
+  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) => {
     mutate(
       {
         input: data,
@@ -36,6 +36,7 @@ const RegisterPage = () => {
         },
       },
     );
+  };
 
   return (
     <Container
