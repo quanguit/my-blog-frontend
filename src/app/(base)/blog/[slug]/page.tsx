@@ -39,12 +39,11 @@ export default async function BlogDetails({
 
   return (
     <Flex flexDirection="column" alignItems="start">
-      <Chip
-        label="Technology"
-        variant="filled"
-        color="primary"
-        sx={{ mb: 2 }}
-      />
+      <Stack direction="row" spacing={2} mb={2}>
+        {data.tags.map((tag) => (
+          <Chip key={tag} label={tag} variant="filled" color="primary" />
+        ))}
+      </Stack>
       <Typography variant="h4" fontWeight={600}>
         {data.title}
       </Typography>
@@ -52,7 +51,8 @@ export default async function BlogDetails({
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        my={1}
+        mt={1.5}
+        mb={3}
       >
         <Stack direction="row" alignItems="center" spacing={1} mr={5}>
           <Avatar alt={avatar.src} src={avatar.src} />
