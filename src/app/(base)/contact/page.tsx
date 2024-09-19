@@ -20,16 +20,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { Flex, Form, Input } from '@/components';
-import { LoginInputDTO, loginSchema } from '@/restful-api/auth/dtos';
+import { ContactInputDTO, contactSchema } from '@/features';
 
 export default function ContactPage() {
-  const methods = useForm<LoginInputDTO>({
-    resolver: yupResolver(loginSchema),
+  const methods = useForm<ContactInputDTO>({
+    resolver: yupResolver(contactSchema),
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<LoginInputDTO> = (data) => {
+  const onSubmit: SubmitHandler<ContactInputDTO> = (data) => {
     console.log(data);
   };
 
@@ -126,7 +126,9 @@ export default function ContactPage() {
           </Flex>
           <Input name="email" label="Email" />
           <Input name="message" label="Message" rows={4} multiline />
-          <Button variant="contained">Send</Button>
+          <Button type="submit" variant="contained">
+            Send
+          </Button>
         </Paper>
       </Form>
     </Box>

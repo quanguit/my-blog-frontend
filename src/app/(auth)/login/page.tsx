@@ -7,8 +7,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input, PasswordInput } from '@/components';
 import { allRoutes } from '@/constants';
+import { LoginInputDTO, loginSchema } from '@/features';
 import { useLoginMutation } from '@/generated/graphql';
-import { LoginInputDTO, loginSchema } from '@/restful-api/auth/dtos';
 
 const LoginPage = () => {
   const { mutate } = useLoginMutation();
@@ -63,7 +63,6 @@ const LoginPage = () => {
           Login
         </Button>
         <Button
-          type="submit"
           href={allRoutes.register.toURL()}
           component={Link}
           variant="text"

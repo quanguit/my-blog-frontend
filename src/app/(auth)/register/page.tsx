@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Form, Input } from '@/components';
 import { PasswordInput } from '@/components/password-input';
 import { allRoutes } from '@/constants';
+import { registerSchema, RegiterInputDTO } from '@/features';
 import { useRegisterMutation } from '@/generated/graphql';
-import { registerSchema, RegiterInputDTO } from '@/restful-api/auth/dtos';
 
 const RegisterPage = () => {
   const { mutate } = useRegisterMutation();
@@ -70,7 +70,6 @@ const RegisterPage = () => {
           Register
         </Button>
         <Button
-          type="submit"
           href={allRoutes.login.toURL()}
           component={Link}
           variant="text"
