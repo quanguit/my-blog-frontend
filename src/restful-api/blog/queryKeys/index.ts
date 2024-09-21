@@ -13,7 +13,7 @@ export const blogQueryOptions = {
   }),
   details: (id: string) =>
     queryOptions<ResponseDataType<BlogDto>>({
-      queryKey: [blogQueryOptions.all.queryKey, { id }],
+      queryKey: [blogQueryOptions.all.queryKey, id],
       queryFn: () => getBlog(id),
     }),
 };
