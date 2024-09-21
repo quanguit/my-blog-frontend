@@ -3,10 +3,12 @@ import Image from 'next/image';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { Card, Flex } from '@/components';
-import { allRoutes } from '@/constants';
+import { allRoutes, REVALIDATE_TIME } from '@/constants';
 import { articleSelector } from '@/features';
 import { useArticlesQuery } from '@/generated/graphql';
 import { withSelector } from '@/utils';
+
+export const revalidate = REVALIDATE_TIME;
 
 export default async function BlogPage() {
   const data = await withSelector(useArticlesQuery.fetcher(), {
