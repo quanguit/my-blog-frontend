@@ -7,6 +7,5 @@ declare namespace NodeJS {
     NEXT_PUBLIC_GITHUB_URL: string;
     NEXT_PUBLIC_LINKED_IN_URL: string;
     NEXT_PUBLIC_WHATS_APP_URL: string;
-    NEXT_PUBLIC_REVALIDATE_TIME: number;
   }
 }

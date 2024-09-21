@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { CkContent, Flex } from '@/components';
+import { REVALIDATE_TIME } from '@/constants';
 import { articleSelector } from '@/features';
 import { useArticlesQuery } from '@/generated/graphql';
 import { withSelector } from '@/utils';
@@ -11,7 +12,7 @@ type BlogDetailsProps = {
   params: { slug: string };
 };
 
-export const revalidate = Number(process.env.NEXT_PUBLIC_REVALIDATE_TIME);
+export const revalidate = REVALIDATE_TIME;
 
 export async function generateStaticParams() {
   const data = await withSelector(useArticlesQuery.fetcher(), {
