@@ -6,4 +6,5 @@ export type ArticleDTO = {
   createdDate: Date;
   tags: string[];
   content: string;
+  views: number;
 };

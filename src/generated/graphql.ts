@@ -47,12 +47,12 @@ export type Article = {
   categories?: Maybe<CategoryRelationResponseCollection>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description: Scalars['String']['output'];
   image: UploadFileEntityResponse;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  views?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ArticleCategoriesArgs = {
@@ -84,7 +84,6 @@ export type ArticleFiltersInput = {
   categories?: InputMaybe<CategoryFiltersInput>;
   content?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ArticleFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>;
@@ -92,16 +91,17 @@ export type ArticleFiltersInput = {
   slug?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  views?: InputMaybe<IntFilterInput>;
 };
 
 export type ArticleInput = {
   categories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   content?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  views?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ArticleRelationResponseCollection = {
@@ -1132,6 +1132,7 @@ export type ArticleFragment = {
     slug?: string | null;
     content?: string | null;
     createdAt?: any | null;
+    views?: number | null;
     image: {
       __typename?: 'UploadFileEntityResponse';
       data?: {
@@ -1234,6 +1235,58 @@ export type MetaFragment = {
   };
 };
 
+export type UpdateArticleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  data: ArticleInput;
+}>;
+
+export type UpdateArticleMutation = {
+  __typename?: 'Mutation';
+  updateArticle?: {
+    __typename?: 'ArticleEntityResponse';
+    data?: {
+      __typename?: 'ArticleEntity';
+      id?: string | null;
+      attributes?: {
+        __typename?: 'Article';
+        title: string;
+        slug?: string | null;
+        content?: string | null;
+        createdAt?: any | null;
+        views?: number | null;
+        image: {
+          __typename?: 'UploadFileEntityResponse';
+          data?: {
+            __typename?: 'UploadFileEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'UploadFile';
+              url: string;
+              width?: number | null;
+              height?: number | null;
+              alternativeText?: string | null;
+              name: string;
+            } | null;
+          } | null;
+        };
+        categories?: {
+          __typename?: 'CategoryRelationResponseCollection';
+          data: Array<{
+            __typename?: 'CategoryEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'Category';
+              name: string;
+              slug?: string | null;
+              createdAt?: any | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type LoginMutationVariables = Exact<{
   input: UsersPermissionsLoginInput;
 }>;
@@ -1295,6 +1348,7 @@ export type ArticlesQuery = {
         slug?: string | null;
         content?: string | null;
         createdAt?: any | null;
+        views?: number | null;
         image: {
           __typename?: 'UploadFileEntityResponse';
           data?: {
@@ -1418,6 +1472,7 @@ export const ArticleFragmentDoc = `
         ...Category
       }
     }
+    views
   }
 }
     `;
@@ -1457,6 +1512,52 @@ export const MetaFragmentDoc = `
   }
 }
     `;
+export const UpdateArticleDocument = `
+    mutation UpdateArticle($id: ID!, $data: ArticleInput!) {
+  updateArticle(id: $id, data: $data) {
+    data {
+      ...Article
+    }
+  }
+}
+    ${ArticleFragmentDoc}
+${FileFragmentDoc}
+${CategoryFragmentDoc}`;
+
+export const useUpdateArticleMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateArticleMutation,
+    TError,
+    UpdateArticleMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    UpdateArticleMutation,
+    TError,
+    UpdateArticleMutationVariables,
+    TContext
+  >({
+    mutationKey: ['UpdateArticle'],
+    mutationFn: (variables?: UpdateArticleMutationVariables) =>
+      fetcher<UpdateArticleMutation, UpdateArticleMutationVariables>(
+        UpdateArticleDocument,
+        variables,
+      )(),
+    ...options,
+  });
+};
+
+useUpdateArticleMutation.fetcher = (
+  variables: UpdateArticleMutationVariables,
+  options?: RequestInit['headers'],
+) =>
+  fetcher<UpdateArticleMutation, UpdateArticleMutationVariables>(
+    UpdateArticleDocument,
+    variables,
+    options,
+  );
+
 export const LoginDocument = `
     mutation Login($input: UsersPermissionsLoginInput!) {
   login(input: $input) {

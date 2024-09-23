@@ -14,4 +14,5 @@ export const articleSelector = (data: ArticlesQuery): Array<ArticleDTO> =>
         (category) => category.attributes?.name ?? '',
       ) ?? [],
     createdDate: article.attributes?.createdAt ?? new Date(),
+    views: article.attributes?.views ?? 0,
   })) ?? [];

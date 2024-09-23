@@ -15,5 +15,6 @@ fragment Article on ArticleEntity {
         ...Category
       }
     }
+    views
   }
 }

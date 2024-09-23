@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Grid2 as Grid, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { Card, Flex, Slider } from '@/components';
@@ -13,6 +14,7 @@ export function Home() {
     data: articles,
     fetchNextPage,
     hasNextPage,
+    isFetchingNextPage,
   } = useInfiniteArticlesQuery(
     {
       pagination: {
@@ -28,7 +30,7 @@ export function Home() {
           ? {
               pagination: {
                 page: lastPage.articles?.meta.pagination.page + 1,
-                pageSize: DEFAULT_PAGE,
+                pageSize: PAGE_SIZE,
               },
             }
           : undefined,
@@ -74,16 +76,20 @@ export function Home() {
             )),
           )}
         </Grid>
-        {hasNextPage && (
-          <Button
-            variant="outlined"
-            color="inherit"
-            sx={{ mx: 'auto' }}
-            onClick={() => fetchNextPage()}
-          >
-            View More Post
-          </Button>
-        )}
+        {hasNextPage &&
+          (isFetchingNextPage ? (
+            <CircularProgress color="inherit" sx={{ mx: 'auto' }} />
+          ) : (
+            <Button
+              variant="outlined"
+              color="inherit"
+              sx={{ mx: 'auto' }}
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+            >
+              View More Post
+            </Button>
+          ))}
       </Flex>
     </Flex>
   );
