@@ -79,6 +79,7 @@ export function Card({
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               display: '-webkit-box',
+              color: 'inherit',
             }}
           >
             {title}

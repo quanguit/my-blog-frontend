@@ -17,6 +17,7 @@ import {
   TextField as MUITextField,
   Toolbar,
 } from '@mui/material';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -40,6 +41,8 @@ const pages = [
 ];
 
 export const AppBar = () => {
+  const { theme, setTheme } = useTheme();
+  const isDarkTheme = theme === 'dark';
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [searchKey, setSearchKey] = useState('');
 
@@ -80,7 +83,7 @@ export const AppBar = () => {
   );
 
   return (
-    <MUIAppBar position="static" sx={{ bgcolor: 'white', boxShadow: 'none' }}>
+    <MUIAppBar position="static" enableColorOnDark>
       <Container>
         <Toolbar
           disableGutters
@@ -96,7 +99,7 @@ export const AppBar = () => {
             href={allRoutes['/'].toURL()}
             aria-label="home page"
           >
-            <Icon name="Logo" sx={{ width: 120, color: 'black', height: 64 }} />
+            <Icon name="Logo" sx={{ width: 120, height: 64 }} />
           </ButtonBase>
           <Box sx={{ display: { xs: 'none', md: 'flex', gap: 12 } }}>
             {pages.map((page) => (
@@ -105,7 +108,8 @@ export const AppBar = () => {
                 href={page.route}
                 key={page.name}
                 onClick={handleCloseDrawer}
-                sx={{ color: 'black', fontSize: 16 }}
+                sx={{ fontSize: 16 }}
+                color="inherit"
               >
                 {page.name}
               </Button>
@@ -135,7 +139,13 @@ export const AppBar = () => {
                   },
                 }}
               />
-              <StyledSwitch sx={{ display: { xs: 'none', md: 'flex' } }} />
+              <StyledSwitch
+                sx={{ display: { xs: 'none', md: 'flex' } }}
+                checked={isDarkTheme}
+                onChange={(e) =>
+                  setTheme(`${e.target.checked ? 'dark' : 'light'}`)
+                }
+              />
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton size="large" onClick={handleOpenDrawer}>

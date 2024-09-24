@@ -61,7 +61,13 @@ export function BlogDetails({ slug }: BlogDetailsProps) {
     <Flex flexDirection="column" alignItems="start">
       <Stack direction="row" spacing={2} mb={2}>
         {data.tags.map((tag) => (
-          <Chip key={tag} label={tag} variant="filled" color="primary" />
+          <Chip
+            key={tag}
+            label={tag}
+            variant="filled"
+            color="primary"
+            sx={{ cursor: 'pointer' }}
+          />
         ))}
       </Stack>
       <Typography variant="h4" fontWeight={600}>

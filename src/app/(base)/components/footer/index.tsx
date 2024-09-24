@@ -26,7 +26,7 @@ export const Footer = ({ sx, ...props }: FooterProps) => {
   const [email, setEmail] = useState('');
 
   return (
-    <Box {...props} sx={{ bgcolor: '#E8E8EA', ...sx }}>
+    <Box {...props} sx={{ bgcolor: 'background.footer', ...sx }}>
       <Container maxWidth="xl">
         <Flex py={8} flexWrap="wrap" gap={{ xs: 4, md: 2 }}>
           <Box
@@ -104,7 +104,6 @@ export const Footer = ({ sx, ...props }: FooterProps) => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                bgcolor: 'white',
               }}
             >
               <Typography variant="h6" fontWeight={700} mb={0.5}>
@@ -148,10 +147,7 @@ export const Footer = ({ sx, ...props }: FooterProps) => {
           alignItems="center"
           mb={2}
         >
-          <Icon
-            name="Copyright"
-            sx={{ width: 240, color: 'black', height: 64 }}
-          />
+          <Icon name="Copyright" sx={{ width: 240, height: 64 }} />
           <Flex gap={4}>
             <Typography
               component={Link}

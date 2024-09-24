@@ -42,6 +42,7 @@ export function Home() {
       },
       // add staleTime to prevent re-fetching data when switching between tabs
       staleTime: Infinity,
+      retry: false,
     },
   );
 
