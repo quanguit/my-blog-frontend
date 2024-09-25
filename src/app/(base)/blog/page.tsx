@@ -47,7 +47,7 @@ export default async function BlogPage() {
                 title={dt.title}
                 tags={dt.tags}
                 image={dt.image}
-                href={allRoutes.blog[':slug'].toURL({ slug: dt.slug })}
+                href={allRoutes.blog[':id'].toURL({ id: dt.id })}
                 author={{ name: 'Quang Do', avatar: avatar.src }}
                 createdDate={dt.createdDate}
               />

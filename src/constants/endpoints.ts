@@ -19,7 +19,7 @@ const PUBLIC_ROUTES = {
 export const PRIVATE_ROUTES = {
   '/': null,
   blog: {
-    ':slug': null,
+    ':id': null,
   },
   contact: null,
 };
