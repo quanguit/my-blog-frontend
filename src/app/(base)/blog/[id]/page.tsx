@@ -5,13 +5,13 @@ import {
 } from '@tanstack/react-query';
 
 import { articleSelector } from '@/features';
-import { useArticlesQuery } from '@/generated/graphql';
+import { useArticleDetailsQuery, useArticlesQuery } from '@/generated/graphql';
 import { withSelector } from '@/utils';
 
 import { BlogDetails } from './ui/blog-details';
 
 type BlogDetailsProps = {
-  params: { slug: string };
+  params: { id: string };
 };
 
 export async function generateStaticParams() {
@@ -19,22 +19,22 @@ export async function generateStaticParams() {
     select: articleSelector,
   });
 
-  return data.map((article) => ({ slug: article.slug }));
+  return data.map((article) => ({ id: article.id }));
 }
 
 export default async function BlogDetailsPage({
-  params: { slug },
+  params: { id },
 }: BlogDetailsProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: useArticlesQuery.getKey({ filters: { slug: { eq: slug } } }),
-    queryFn: useArticlesQuery.fetcher({ filters: { slug: { eq: slug } } }),
+    queryKey: useArticleDetailsQuery.getKey({ id }),
+    queryFn: useArticleDetailsQuery.fetcher({ id }),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <BlogDetails slug={slug} />
+      <BlogDetails id={id} />
     </HydrationBoundary>
   );
 }

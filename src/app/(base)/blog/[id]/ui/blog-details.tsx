@@ -6,27 +6,21 @@ import { useEffect } from 'react';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { CkContent, Flex } from '@/components';
-import { articleSelector } from '@/features';
+import { articleDetailsSelector } from '@/features';
 import {
-  useArticlesQuery,
+  useArticleDetailsQuery,
   useUpdateArticleMutation,
 } from '@/generated/graphql';
 
 interface BlogDetailsProps {
-  slug: string;
+  id: string;
 }
 
-export function BlogDetails({ slug }: BlogDetailsProps) {
-  const { data } = useArticlesQuery(
+export function BlogDetails({ id }: BlogDetailsProps) {
+  const { data } = useArticleDetailsQuery(
+    { id },
     {
-      filters: {
-        slug: {
-          eq: slug,
-        },
-      },
-    },
-    {
-      select: (data) => articleSelector(data)[0],
+      select: (data) => articleDetailsSelector(data),
     },
   );
 
@@ -51,7 +45,7 @@ export function BlogDetails({ slug }: BlogDetailsProps) {
         },
       );
     }
-  }, [slug, data, mutate]);
+  }, [id, data, mutate]);
 
   if (!data) {
     return null;

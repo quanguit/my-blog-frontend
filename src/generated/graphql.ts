@@ -1325,6 +1325,57 @@ export type RegisterMutation = {
   };
 };
 
+export type ArticleDetailsQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type ArticleDetailsQuery = {
+  __typename?: 'Query';
+  article?: {
+    __typename?: 'ArticleEntityResponse';
+    data?: {
+      __typename?: 'ArticleEntity';
+      id?: string | null;
+      attributes?: {
+        __typename?: 'Article';
+        title: string;
+        slug?: string | null;
+        content?: string | null;
+        createdAt?: any | null;
+        views?: number | null;
+        image: {
+          __typename?: 'UploadFileEntityResponse';
+          data?: {
+            __typename?: 'UploadFileEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'UploadFile';
+              url: string;
+              width?: number | null;
+              height?: number | null;
+              alternativeText?: string | null;
+              name: string;
+            } | null;
+          } | null;
+        };
+        categories?: {
+          __typename?: 'CategoryRelationResponseCollection';
+          data: Array<{
+            __typename?: 'CategoryEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'Category';
+              name: string;
+              slug?: string | null;
+              createdAt?: any | null;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type ArticlesQueryVariables = Exact<{
   filters?: InputMaybe<ArticleFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -1633,6 +1684,91 @@ useRegisterMutation.fetcher = (
 ) =>
   fetcher<RegisterMutation, RegisterMutationVariables>(
     RegisterDocument,
+    variables,
+    options,
+  );
+
+export const ArticleDetailsDocument = `
+    query ArticleDetails($id: ID!) {
+  article(id: $id) {
+    data {
+      ...Article
+    }
+  }
+}
+    ${ArticleFragmentDoc}
+${FileFragmentDoc}
+${CategoryFragmentDoc}`;
+
+export const useArticleDetailsQuery = <
+  TData = ArticleDetailsQuery,
+  TError = unknown,
+>(
+  variables: ArticleDetailsQueryVariables,
+  options?: Omit<
+    UseQueryOptions<ArticleDetailsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseQueryOptions<ArticleDetailsQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<ArticleDetailsQuery, TError, TData>({
+    queryKey: ['ArticleDetails', variables],
+    queryFn: fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
+      ArticleDetailsDocument,
+      variables,
+    ),
+    ...options,
+  });
+};
+
+useArticleDetailsQuery.getKey = (variables: ArticleDetailsQueryVariables) => [
+  'ArticleDetails',
+  variables,
+];
+
+export const useInfiniteArticleDetailsQuery = <
+  TData = InfiniteData<ArticleDetailsQuery>,
+  TError = unknown,
+>(
+  variables: ArticleDetailsQueryVariables,
+  options: Omit<
+    UseInfiniteQueryOptions<ArticleDetailsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseInfiniteQueryOptions<
+      ArticleDetailsQuery,
+      TError,
+      TData
+    >['queryKey'];
+  },
+) => {
+  return useInfiniteQuery<ArticleDetailsQuery, TError, TData>(
+    (() => {
+      const { queryKey: optionsQueryKey, ...restOptions } = options;
+      return {
+        queryKey: optionsQueryKey ?? ['ArticleDetails.infinite', variables],
+        queryFn: (metaData) =>
+          fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
+            ArticleDetailsDocument,
+            { ...variables, ...(metaData.pageParam ?? {}) },
+          )(),
+        ...restOptions,
+      };
+    })(),
+  );
+};
+
+useInfiniteArticleDetailsQuery.getKey = (
+  variables: ArticleDetailsQueryVariables,
+) => ['ArticleDetails.infinite', variables];
+
+useArticleDetailsQuery.fetcher = (
+  variables: ArticleDetailsQueryVariables,
+  options?: RequestInit['headers'],
+) =>
+  fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
+    ArticleDetailsDocument,
     variables,
     options,
   );

@@ -67,8 +67,8 @@ export function Home() {
                   title={article.title}
                   tags={article.tags}
                   image={article.image}
-                  href={allRoutes.blog[':slug'].toURL({
-                    slug: article.slug,
+                  href={allRoutes.blog[':id'].toURL({
+                    id: article.id,
                   })}
                   author={{ name: 'Quang Do', avatar: avatar.src }}
                   createdDate={article.createdDate}
