@@ -1,15 +1,17 @@
-import 'ckeditor5/ckeditor5.css';
+import { Box } from '@mui/material';
 
-export function CkContent({ children }: { children: string }) {
-  if (!children) {
+import './style.css';
+
+export function CkContent({ content }: { content: string }) {
+  if (!content) {
     return null;
   }
 
   return (
-    <div
+    <Box
       className="ck-content"
       dangerouslySetInnerHTML={{
-        __html: children,
+        __html: content,
       }}
     />
   );
