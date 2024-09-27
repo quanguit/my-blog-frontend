@@ -17,42 +17,35 @@ interface BlogDetailsProps {
 }
 
 export function BlogDetails({ id }: BlogDetailsProps) {
-  const { data } = useArticleDetailsQuery(
+  const { data, refetch } = useArticleDetailsQuery(
     { id },
     {
-      select: (data) => articleDetailsSelector(data),
+      select: articleDetailsSelector,
     },
   );
 
   const { mutate } = useUpdateArticleMutation();
 
   useEffect(() => {
-    if (data) {
-      mutate(
-        {
+    // call api 1 more time to get new views
+    refetch().then(({ data }) => {
+      if (data) {
+        mutate({
           id: data.id,
           data: {
             views: data.views + 1,
           },
-        },
-        {
-          onSuccess: (data) => {
-            console.log('onSuccess: ', data);
-          },
-          onError: (error) => {
-            console.log('onError: ', error);
-          },
-        },
-      );
-    }
-  }, [id, data, mutate]);
+        });
+      }
+    });
+  }, [mutate, refetch]);
 
   if (!data) {
     return null;
   }
 
   return (
-    <Flex flexDirection="column" alignItems="start">
+    <Flex flexDirection="column">
       <Stack direction="row" spacing={2} mb={2}>
         {data.tags.map((tag) => (
           <Chip
@@ -67,13 +60,7 @@ export function BlogDetails({ id }: BlogDetailsProps) {
       <Typography variant="h4" fontWeight={600}>
         {data.title}
       </Typography>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        mt={1.5}
-        mb={3}
-      >
+      <Stack direction="row" alignItems="center" mt={1.5} mb={3}>
         <Stack direction="row" alignItems="center" spacing={1} mr={5}>
           <Avatar alt={avatar.src} src={avatar.src} />
           <Typography variant="body1" color="grey">
@@ -84,7 +71,7 @@ export function BlogDetails({ id }: BlogDetailsProps) {
           {dayjs(data.createdDate).format('MMMM DD, YYYY')}
         </Typography>
       </Stack>
-      <CkContent>{data.content}</CkContent>
+      <CkContent content={data.content} />
     </Flex>
   );
 }

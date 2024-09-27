@@ -8,6 +8,7 @@ import { Card, Flex, Slider } from '@/components';
 import { allRoutes, DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
 import { articleSelector, bannerSelector } from '@/features';
 import { useBannersQuery, useInfiniteArticlesQuery } from '@/generated/graphql';
+import { getNextPageParamFunc } from '@/services';
 
 export function Home() {
   const {
@@ -24,16 +25,7 @@ export function Home() {
     },
     {
       getNextPageParam: (lastPage) =>
-        lastPage.articles?.meta.pagination &&
-        lastPage.articles?.meta.pagination.page <
-          lastPage.articles?.meta.pagination.pageCount
-          ? {
-              pagination: {
-                page: lastPage.articles?.meta.pagination.page + 1,
-                pageSize: PAGE_SIZE,
-              },
-            }
-          : undefined,
+        getNextPageParamFunc(lastPage.articles?.meta.pagination),
       initialPageParam: {
         pagination: {
           page: DEFAULT_PAGE,
