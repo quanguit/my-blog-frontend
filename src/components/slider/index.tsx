@@ -7,10 +7,12 @@ import ReactSlick, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { ImageDTO } from '@/features';
+import { BannerFragment } from '@/generated/graphql';
 
 interface SliderProps extends Omit<BoxProps, 'draggable'> {
-  images: ImageDTO[];
+  // If get all properties in images, we can use Banner type
+  // but if we only defined some properties in Banner, we must use BannerFragment type
+  images: BannerFragment[];
 }
 
 export const Slider = (props: SliderProps) => {
@@ -59,20 +61,20 @@ export const Slider = (props: SliderProps) => {
     >
       {images.map((img) => (
         <Box
-          key={img.id}
+          key={img.documentId}
           position="relative"
           borderRadius={2}
           overflow="hidden"
           sx={{ aspectRatio: 3 }}
         >
           <Image
-            src={`http://localhost:1337${img.image}`}
+            src={`http://localhost:1337${img.image.url}`}
             fill
             sizes="100vw"
             style={{
               objectFit: 'cover',
             }}
-            alt={img.image}
+            alt={img.image.alternativeText ?? ''}
             // placeholder="blur"
           />
         </Box>

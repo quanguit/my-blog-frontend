@@ -1,7 +1,5 @@
-query ArticleDetails($id: ID!) {
-  article(id: $id) {
-    data {
-      ...Article
-    }
+query ArticleDetails($documentId: ID!) {
+  article(documentId: $documentId) {
+    ...Article
   }
 }

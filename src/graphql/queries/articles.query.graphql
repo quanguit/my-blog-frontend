@@ -2,19 +2,19 @@ query Articles(
   $filters: ArticleFiltersInput
   $pagination: PaginationArg
   $sort: [String]
-  $publicationState: PublicationState
+  $status: PublicationStatus = PUBLISHED
 ) {
-  articles(
+  articles_connection(
     filters: $filters
     pagination: $pagination
     sort: $sort
-    publicationState: $publicationState
+    status: $status
   ) {
-    data {
+    nodes {
       ...Article
     }
-    meta {
-      ...Meta
+    pageInfo {
+      ...Pagination
     }
   }
 }

@@ -6,8 +6,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import avatar from '@/assets/images/avatar.jpg';
 import { Card, Flex, Slider } from '@/components';
 import { allRoutes, DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
-import { articleSelector, bannerSelector } from '@/features';
 import { useBannersQuery, useInfiniteArticlesQuery } from '@/generated/graphql';
+import { getNextPageParamFunc } from '@/services';
 
 export function Home() {
   const {
@@ -24,16 +24,7 @@ export function Home() {
     },
     {
       getNextPageParam: (lastPage) =>
-        lastPage.articles?.meta.pagination &&
-        lastPage.articles?.meta.pagination.page <
-          lastPage.articles?.meta.pagination.pageCount
-          ? {
-              pagination: {
-                page: lastPage.articles?.meta.pagination.page + 1,
-                pageSize: PAGE_SIZE,
-              },
-            }
-          : undefined,
+        getNextPageParamFunc(lastPage.articles_connection?.pageInfo),
       initialPageParam: {
         pagination: {
           page: DEFAULT_PAGE,
@@ -44,11 +35,12 @@ export function Home() {
       staleTime: Infinity,
       // default retry 4 times
       retry: false,
+      select: (dt) => dt.pages,
     },
   );
 
   const { data: banners } = useBannersQuery(undefined, {
-    select: bannerSelector,
+    select: (dt) => dt.banners.filter((banner) => !!banner),
     staleTime: Infinity,
   });
 
@@ -61,18 +53,23 @@ export function Home() {
           Latest Post
         </Typography>
         <Grid container spacing={2} mb={4}>
-          {articles?.pages?.map((page) =>
-            articleSelector(page).map((article) => (
-              <Grid key={article.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+          {articles?.map((page) =>
+            page.articles_connection?.nodes.map((article) => (
+              <Grid
+                key={article.documentId}
+                size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+              >
                 <Card
                   title={article.title}
-                  tags={article.tags}
-                  image={article.image}
+                  tags={article.categories.map(
+                    (category) => category?.name ?? '',
+                  )}
+                  image={article.image.url}
                   href={allRoutes.blog[':id'].toURL({
-                    id: article.id,
+                    id: article.documentId,
                   })}
                   author={{ name: 'Quang Do', avatar: avatar.src }}
-                  createdDate={article.createdDate}
+                  createdDate={article.createdAt}
                 />
               </Grid>
             )),

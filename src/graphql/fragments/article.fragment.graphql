@@ -1,20 +1,13 @@
-fragment Article on ArticleEntity {
-  id
-  attributes {
-    title
-    slug
-    content
-    image {
-      data {
-        ...File
-      }
-    }
-    createdAt
-    categories {
-      data {
-        ...Category
-      }
-    }
-    views
+fragment Article on Article {
+  documentId
+  title
+  image {
+    ...UploadFile
   }
+  content
+  categories {
+    ...Category
+  }
+  views
+  createdAt
 }

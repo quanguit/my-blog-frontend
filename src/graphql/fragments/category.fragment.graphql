@@ -1,8 +1,4 @@
-fragment Category on CategoryEntity {
-  id
-  attributes {
-    name
-    slug
-    createdAt
-  }
+fragment Category on Category {
+  documentId
+  name
 }

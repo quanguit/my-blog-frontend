@@ -1,11 +1,6 @@
-fragment Banner on BannerEntity {
-  id
-  attributes {
-    image {
-      data {
-        ...File
-      }
-    }
-    createdAt
+fragment Banner on Banner {
+  documentId
+  image {
+    ...UploadFile
   }
 }

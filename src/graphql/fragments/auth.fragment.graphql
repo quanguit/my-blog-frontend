@@ -5,7 +5,9 @@ fragment Auth on UsersPermissionsLoginPayload {
     username
     email
     role {
+      id
       name
+      type
     }
   }
 }

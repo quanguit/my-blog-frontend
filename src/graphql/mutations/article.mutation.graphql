@@ -1,7 +1,0 @@
-mutation UpdateArticle($id: ID!, $data: ArticleInput!) {
-  updateArticle(id: $id, data: $data) {
-    data {
-      ...Article
-    }
-  }
-}

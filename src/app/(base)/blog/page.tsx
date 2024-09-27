@@ -1,64 +1,39 @@
-import { Box, Button, Grid2 as Grid, Typography } from '@mui/material';
-import Image from 'next/image';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 
-import avatar from '@/assets/images/avatar.jpg';
-import { Card, Flex } from '@/components';
-import { allRoutes, REVALIDATE_TIME } from '@/constants';
-import { articleSelector } from '@/features';
-import { useArticlesQuery } from '@/generated/graphql';
-import { withSelector } from '@/utils';
+import { DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
+import {
+  useArticlesQuery,
+  useInfiniteArticlesQuery,
+} from '@/generated/graphql';
 
-export const revalidate = REVALIDATE_TIME;
+import { Blogs } from './ui/blogs';
 
-export default async function BlogPage() {
-  const data = await withSelector(useArticlesQuery.fetcher(), {
-    select: articleSelector,
+export default async function BlogsPage() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: useInfiniteArticlesQuery.getKey({
+      pagination: {
+        page: DEFAULT_PAGE,
+        pageSize: PAGE_SIZE,
+      },
+    }),
+    queryFn: ({ pageParam }) => useArticlesQuery.fetcher(pageParam)(),
+    initialPageParam: {
+      pagination: {
+        page: DEFAULT_PAGE,
+        pageSize: PAGE_SIZE,
+      },
+    },
   });
 
   return (
-    <Flex flexDirection="column">
-      <Typography variant="h4" align="center" fontWeight={700} mb={4}>
-        All Blogs
-      </Typography>
-      <Box
-        position="relative"
-        borderRadius={2}
-        overflow="hidden"
-        sx={{ aspectRatio: 4 }}
-        mb={8}
-      >
-        <Image
-          src={avatar}
-          fill
-          sizes="100vw"
-          style={{
-            objectFit: 'cover',
-          }}
-          alt={avatar.src}
-          placeholder="blur"
-        />
-      </Box>
-
-      <Flex flexDirection="column">
-        <Grid container spacing={2} mb={4}>
-          {data.map((dt) => (
-            <Grid key={dt.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <Card
-                title={dt.title}
-                tags={dt.tags}
-                image={dt.image}
-                href={allRoutes.blog[':id'].toURL({ id: dt.id })}
-                author={{ name: 'Quang Do', avatar: avatar.src }}
-                createdDate={dt.createdDate}
-              />
-            </Grid>
-          ))}
-        </Grid>
-
-        <Button variant="outlined" color="inherit" sx={{ mx: 'auto' }}>
-          Load More
-        </Button>
-      </Flex>
-    </Flex>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Blogs />
+    </HydrationBoundary>
   );
 }
