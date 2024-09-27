@@ -2,16 +2,14 @@ query Banners(
   $filters: BannerFiltersInput
   $pagination: PaginationArg
   $sort: [String]
-  $publicationState: PublicationState
+  $status: PublicationStatus = PUBLISHED
 ) {
   banners(
     filters: $filters
     pagination: $pagination
     sort: $sort
-    publicationState: $publicationState
+    status: $status
   ) {
-    data {
-      ...Banner
-    }
+    ...Banner
   }
 }

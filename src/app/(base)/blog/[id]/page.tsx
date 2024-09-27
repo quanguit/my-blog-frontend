@@ -4,9 +4,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-import { articleSelector } from '@/features';
 import { useArticleDetailsQuery, useArticlesQuery } from '@/generated/graphql';
-import { withSelector } from '@/utils';
 
 import { BlogDetails } from './ui/blog-details';
 
@@ -15,11 +13,11 @@ type BlogDetailsProps = {
 };
 
 export async function generateStaticParams() {
-  const data = await withSelector(useArticlesQuery.fetcher(), {
-    select: articleSelector,
-  });
+  const data = await useArticlesQuery.fetcher()();
 
-  return data.map((article) => ({ id: article.id }));
+  return (data.articles_connection?.nodes ?? []).map((article) => ({
+    id: article.documentId,
+  }));
 }
 
 export default async function BlogDetailsPage({
@@ -28,8 +26,8 @@ export default async function BlogDetailsPage({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: useArticleDetailsQuery.getKey({ id }),
-    queryFn: useArticleDetailsQuery.fetcher({ id }),
+    queryKey: useArticleDetailsQuery.getKey({ documentId: id }),
+    queryFn: useArticleDetailsQuery.fetcher({ documentId: id }),
   });
 
   return (

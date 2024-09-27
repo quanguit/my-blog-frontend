@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { CkContent, Flex } from '@/components';
-import { articleDetailsSelector } from '@/features';
 import {
   useArticleDetailsQuery,
   useUpdateArticleMutation,
@@ -18,9 +17,9 @@ interface BlogDetailsProps {
 
 export function BlogDetails({ id }: BlogDetailsProps) {
   const { data, refetch } = useArticleDetailsQuery(
-    { id },
+    { documentId: id },
     {
-      select: articleDetailsSelector,
+      select: (dt) => dt.article,
     },
   );
 
@@ -31,7 +30,7 @@ export function BlogDetails({ id }: BlogDetailsProps) {
     refetch().then(({ data }) => {
       if (data) {
         mutate({
-          id: data.id,
+          documentId: data.documentId,
           data: {
             views: data.views + 1,
           },
@@ -47,10 +46,10 @@ export function BlogDetails({ id }: BlogDetailsProps) {
   return (
     <Flex flexDirection="column">
       <Stack direction="row" spacing={2} mb={2}>
-        {data.tags.map((tag) => (
+        {data.categories.map((category) => (
           <Chip
-            key={tag}
-            label={tag}
+            key={category?.documentId}
+            label={category?.name}
             variant="filled"
             color="primary"
             sx={{ cursor: 'pointer' }}
@@ -68,10 +67,10 @@ export function BlogDetails({ id }: BlogDetailsProps) {
           </Typography>
         </Stack>
         <Typography variant="body1" color="grey" fontWeight={400}>
-          {dayjs(data.createdDate).format('MMMM DD, YYYY')}
+          {dayjs(data.createdAt).format('MMMM DD, YYYY')}
         </Typography>
       </Stack>
-      <CkContent content={data.content} />
+      <CkContent content={data.content || ''} />
     </Flex>
   );
 }

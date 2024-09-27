@@ -1,0 +1,6 @@
+fragment Pagination on Pagination {
+  page
+  pageCount
+  pageSize
+  total
+}
