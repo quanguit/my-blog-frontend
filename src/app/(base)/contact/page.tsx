@@ -15,6 +15,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -23,6 +24,8 @@ import { Flex, Form, Input } from '@/components';
 import { ContactInputDTO, contactSchema } from '@/features';
 
 export default function ContactPage() {
+  const { theme } = useTheme();
+
   const methods = useForm<ContactInputDTO>({
     resolver: yupResolver(contactSchema),
   });
@@ -38,7 +41,7 @@ export default function ContactPage() {
       <Stack
         alignItems="center"
         spacing={3}
-        bgcolor="#EEEEEE"
+        bgcolor={`${theme === 'dark' ? '#242535' : '#EEEEEE'}`}
         borderRadius={2}
         py={4}
         mb={10}

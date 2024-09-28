@@ -17,6 +17,7 @@ export default async function HomePage() {
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: useInfiniteArticlesQuery.getKey({
+      sort: ['updatedAt:desc'],
       pagination: {
         page: DEFAULT_PAGE,
         pageSize: PAGE_SIZE,
@@ -24,6 +25,7 @@ export default async function HomePage() {
     }),
     queryFn: ({ pageParam }) => useArticlesQuery.fetcher(pageParam)(),
     initialPageParam: {
+      sort: ['updatedAt:desc'],
       pagination: {
         page: DEFAULT_PAGE,
         pageSize: PAGE_SIZE,

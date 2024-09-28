@@ -17,6 +17,7 @@ export default async function BlogsPage() {
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: useInfiniteArticlesQuery.getKey({
+      sort: ['views:desc'],
       pagination: {
         page: DEFAULT_PAGE,
         pageSize: PAGE_SIZE,
@@ -24,6 +25,7 @@ export default async function BlogsPage() {
     }),
     queryFn: ({ pageParam }) => useArticlesQuery.fetcher(pageParam)(),
     initialPageParam: {
+      sort: ['views:desc'],
       pagination: {
         page: DEFAULT_PAGE,
         pageSize: PAGE_SIZE,
