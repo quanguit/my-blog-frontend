@@ -4,6 +4,7 @@ import {
   CardActionArea,
   Chip,
   Card as MUICard,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -18,14 +19,25 @@ export interface Author {
   avatar?: string;
 }
 
-export interface CardProps {
-  href: string;
-  image: string | StaticImport;
-  title: string;
-  tags: string[];
-  author: Author;
-  createdDate: Date;
-}
+export type CardProps =
+  | {
+      href: string;
+      image: string | StaticImport;
+      title: string;
+      tags: string[];
+      author: Author;
+      createdDate: Date;
+      isLoading?: false;
+    }
+  | {
+      href?: undefined;
+      image?: undefined;
+      title?: undefined;
+      tags?: undefined;
+      author?: undefined;
+      createdDate?: undefined;
+      isLoading: true;
+    };
 
 export function Card({
   href,
@@ -34,10 +46,17 @@ export function Card({
   author,
   tags,
   createdDate,
+  isLoading,
 }: CardProps) {
   return (
     <MUICard variant="outlined" sx={{ borderRadius: 2 }}>
-      <CardActionArea component={Link} href={href} sx={{ p: 2 }}>
+      <CardActionArea
+        sx={{ p: 2 }}
+        {...(!isLoading && {
+          component: Link,
+          href,
+        })}
+      >
         <Box
           position="relative"
           borderRadius={2}
@@ -45,59 +64,94 @@ export function Card({
           sx={{ aspectRatio: 3 / 2 }}
           mb={2}
         >
-          <Image
-            src={`http://localhost:1337${image}`}
-            fill
-            sizes="100vw"
-            style={{
-              objectFit: 'cover',
-            }}
-            alt={title}
-            // placeholder="blur"
-          />
+          {isLoading ? (
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          ) : (
+            <Image
+              src={`http://localhost:1337${image}`}
+              fill
+              sizes="100vw"
+              style={{
+                objectFit: 'cover',
+              }}
+              alt={title}
+              // placeholder="blur"
+            />
+          )}
         </Box>
         <Box p={1}>
           <Stack direction="row" spacing={2} mb={2} overflow="hidden">
-            {tags.map((tag) => (
-              <Chip
-                key={tag}
-                label={startCase(tag)}
-                variant="outlined"
-                color="primary"
-                sx={{ mb: 2 }}
-              />
-            ))}
+            {isLoading
+              ? Array(2)
+                  .fill(null)
+                  .map((_, index) => <Skeleton key={index} width="30%" />)
+              : tags.map((tag) => (
+                  <Chip
+                    key={tag}
+                    label={startCase(tag)}
+                    variant="outlined"
+                    color="primary"
+                    sx={{ mb: 2 }}
+                  />
+                ))}
           </Stack>
-          <Typography
-            variant="h6"
-            fontWeight={700}
-            height={40}
-            lineHeight={1}
-            overflow="hidden"
-            textOverflow="ellipsis"
-            sx={{
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              display: '-webkit-box',
-              color: 'inherit',
-            }}
-          >
-            {title}
-          </Typography>
+          {isLoading ? (
+            <Skeleton width="80%" sx={{ mb: 1 }} />
+          ) : (
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              height={40}
+              lineHeight={1}
+              overflow="hidden"
+              textOverflow="ellipsis"
+              sx={{
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                display: '-webkit-box',
+                color: 'inherit',
+              }}
+            >
+              {title}
+            </Typography>
+          )}
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
           >
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Avatar alt={author.name} src={author.avatar} />
-              <Typography variant="body2" color="grey" flexShrink={0}>
-                {author.name}
-              </Typography>
+              {isLoading ? (
+                <Skeleton
+                  animation="wave"
+                  variant="circular"
+                  width={40}
+                  height={40}
+                  sx={{ flexShrink: 0 }}
+                />
+              ) : (
+                <Avatar alt={author.name} src={author.avatar} />
+              )}
+              {isLoading ? (
+                <Skeleton
+                  animation="wave"
+                  height={10}
+                  width="100%"
+                  sx={{ flexShrink: 0 }}
+                />
+              ) : (
+                <Typography variant="body2" color="grey" flexShrink={0}>
+                  {author.name}
+                </Typography>
+              )}
             </Stack>
-            <Typography variant="body2" color="grey" fontWeight={400}>
-              {dayjs(createdDate).format('MMM DD, YYYY')}
-            </Typography>
+            {isLoading ? (
+              <Skeleton animation="wave" height={10} width="30%" />
+            ) : (
+              <Typography variant="body2" color="grey" fontWeight={400}>
+                {dayjs(createdDate).format('MMM DD, YYYY')}
+              </Typography>
+            )}
           </Stack>
         </Box>
       </CardActionArea>

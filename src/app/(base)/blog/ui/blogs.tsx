@@ -99,6 +99,21 @@ export function Blogs() {
               </Grid>
             )),
           )}
+          {isFetchingNextPage &&
+            Array(4)
+              .fill(null)
+              .map((_, index) => (
+                <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Card isLoading />
+                  </motion.div>
+                </Grid>
+              ))}
         </Grid>
         <Box ref={ref} />
         {isFetchingNextPage && (
