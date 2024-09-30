@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   description: 'This is layout',
   openGraph: {
-    images: [openGraphImage.src],
+    images: [`${process.env.NEXT_PUBLIC_DOMAIN}${openGraphImage.src}`],
   },
 };
 
