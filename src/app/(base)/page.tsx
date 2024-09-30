@@ -1,4 +1,5 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 import { DEFAULT_PAGE, PAGE_SIZE, REVALIDATE_TIME } from '@/constants';
 import {
@@ -8,9 +9,14 @@ import {
 } from '@/generated/graphql';
 import { getQueryClient } from '@/services';
 
-import { Home } from './ui';
+import { Home } from './ui/home';
 
 export const revalidate = REVALIDATE_TIME;
+
+export const metadata: Metadata = {
+  title: 'Home',
+  description: 'This is Home Page',
+};
 
 export default async function HomePage() {
   const queryClient = getQueryClient();

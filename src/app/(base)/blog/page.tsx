@@ -3,6 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 import { DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
 import {
@@ -11,6 +12,11 @@ import {
 } from '@/generated/graphql';
 
 import { Blogs } from './ui/blogs';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'This is Blog Page',
+};
 
 export default async function BlogsPage() {
   const queryClient = new QueryClient();
