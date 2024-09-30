@@ -2,6 +2,7 @@
 
 import { Button, Grid2 as Grid, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { motion } from 'framer-motion';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { Card, Flex, Slider } from '@/components';
@@ -61,21 +62,43 @@ export function Home() {
                 key={article.documentId}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
               >
-                <Card
-                  title={article.title}
-                  tags={article.categories.map(
-                    (category) => category?.name ?? '',
-                  )}
-                  image={article.image.url}
-                  href={allRoutes.blog[':id'].toURL({
-                    id: article.documentId,
-                  })}
-                  author={{ name: 'Quang Do', avatar: avatar.src }}
-                  createdDate={article.createdAt}
-                />
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card
+                    title={article.title}
+                    tags={article.categories.map(
+                      (category) => category?.name ?? '',
+                    )}
+                    image={article.image.url}
+                    href={allRoutes.blog[':id'].toURL({
+                      id: article.documentId,
+                    })}
+                    author={{ name: 'Quang Do', avatar: avatar.src }}
+                    createdDate={article.createdAt}
+                  />
+                </motion.div>
               </Grid>
             )),
           )}
+          {isFetchingNextPage &&
+            Array(4)
+              .fill(null)
+              .map((_, index) => (
+                <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                  <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Card isLoading />
+                  </motion.div>
+                </Grid>
+              ))}
         </Grid>
         {hasNextPage &&
           (isFetchingNextPage ? (
