@@ -1529,11 +1529,11 @@ export type UpdateArticleMutation = {
   } | null;
 };
 
-export type ArticleDetailsQueryVariables = Exact<{
+export type ArticleQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-export type ArticleDetailsQuery = {
+export type ArticleQuery = {
   __typename?: 'Query';
   article?: {
     __typename?: 'Article';
@@ -1813,8 +1813,8 @@ useUpdateArticleMutation.fetcher = (
     options,
   );
 
-export const ArticleDetailsDocument = `
-    query ArticleDetails($documentId: ID!) {
+export const ArticleDocument = `
+    query Article($documentId: ID!) {
   article(documentId: $documentId) {
     ...Article
   }
@@ -1823,75 +1823,66 @@ export const ArticleDetailsDocument = `
 ${UploadFileFragmentDoc}
 ${CategoryFragmentDoc}`;
 
-export const useArticleDetailsQuery = <
-  TData = ArticleDetailsQuery,
-  TError = unknown,
->(
-  variables: ArticleDetailsQueryVariables,
-  options?: Omit<
-    UseQueryOptions<ArticleDetailsQuery, TError, TData>,
-    'queryKey'
-  > & {
-    queryKey?: UseQueryOptions<ArticleDetailsQuery, TError, TData>['queryKey'];
+export const useArticleQuery = <TData = ArticleQuery, TError = unknown>(
+  variables: ArticleQueryVariables,
+  options?: Omit<UseQueryOptions<ArticleQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<ArticleQuery, TError, TData>['queryKey'];
   },
 ) => {
-  return useQuery<ArticleDetailsQuery, TError, TData>({
-    queryKey: ['ArticleDetails', variables],
-    queryFn: fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
-      ArticleDetailsDocument,
+  return useQuery<ArticleQuery, TError, TData>({
+    queryKey: ['Article', variables],
+    queryFn: fetcher<ArticleQuery, ArticleQueryVariables>(
+      ArticleDocument,
       variables,
     ),
     ...options,
   });
 };
 
-useArticleDetailsQuery.getKey = (variables: ArticleDetailsQueryVariables) => [
-  'ArticleDetails',
+useArticleQuery.getKey = (variables: ArticleQueryVariables) => [
+  'Article',
   variables,
 ];
 
-export const useInfiniteArticleDetailsQuery = <
-  TData = InfiniteData<ArticleDetailsQuery>,
+export const useInfiniteArticleQuery = <
+  TData = InfiniteData<ArticleQuery>,
   TError = unknown,
 >(
-  variables: ArticleDetailsQueryVariables,
+  variables: ArticleQueryVariables,
   options: Omit<
-    UseInfiniteQueryOptions<ArticleDetailsQuery, TError, TData>,
+    UseInfiniteQueryOptions<ArticleQuery, TError, TData>,
     'queryKey'
   > & {
-    queryKey?: UseInfiniteQueryOptions<
-      ArticleDetailsQuery,
-      TError,
-      TData
-    >['queryKey'];
+    queryKey?: UseInfiniteQueryOptions<ArticleQuery, TError, TData>['queryKey'];
   },
 ) => {
-  return useInfiniteQuery<ArticleDetailsQuery, TError, TData>(
+  return useInfiniteQuery<ArticleQuery, TError, TData>(
     (() => {
       const { queryKey: optionsQueryKey, ...restOptions } = options;
       return {
-        queryKey: optionsQueryKey ?? ['ArticleDetails.infinite', variables],
+        queryKey: optionsQueryKey ?? ['Article.infinite', variables],
         queryFn: (metaData) =>
-          fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
-            ArticleDetailsDocument,
-            { ...variables, ...(metaData.pageParam ?? {}) },
-          )(),
+          fetcher<ArticleQuery, ArticleQueryVariables>(ArticleDocument, {
+            ...variables,
+            ...(metaData.pageParam ?? {}),
+          })(),
         ...restOptions,
       };
     })(),
   );
 };
 
-useInfiniteArticleDetailsQuery.getKey = (
-  variables: ArticleDetailsQueryVariables,
-) => ['ArticleDetails.infinite', variables];
+useInfiniteArticleQuery.getKey = (variables: ArticleQueryVariables) => [
+  'Article.infinite',
+  variables,
+];
 
-useArticleDetailsQuery.fetcher = (
-  variables: ArticleDetailsQueryVariables,
+useArticleQuery.fetcher = (
+  variables: ArticleQueryVariables,
   options?: RequestInit['headers'],
 ) =>
-  fetcher<ArticleDetailsQuery, ArticleDetailsQueryVariables>(
-    ArticleDetailsDocument,
+  fetcher<ArticleQuery, ArticleQueryVariables>(
+    ArticleDocument,
     variables,
     options,
   );

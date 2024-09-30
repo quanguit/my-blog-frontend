@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-import { useArticleDetailsQuery, useArticlesQuery } from '@/generated/graphql';
+import { useArticleQuery, useArticlesQuery } from '@/generated/graphql';
 
 import { BlogDetails } from './ui/blog-details';
 
@@ -26,8 +26,8 @@ export default async function BlogDetailsPage({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: useArticleDetailsQuery.getKey({ documentId: id }),
-    queryFn: useArticleDetailsQuery.fetcher({ documentId: id }),
+    queryKey: useArticleQuery.getKey({ documentId: id }),
+    queryFn: useArticleQuery.fetcher({ documentId: id }),
   });
 
   return (

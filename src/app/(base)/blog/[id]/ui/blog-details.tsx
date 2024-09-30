@@ -6,17 +6,14 @@ import { useEffect } from 'react';
 
 import avatar from '@/assets/images/avatar.jpg';
 import { CkContent, Flex } from '@/components';
-import {
-  useArticleDetailsQuery,
-  useUpdateArticleMutation,
-} from '@/generated/graphql';
+import { useArticleQuery, useUpdateArticleMutation } from '@/generated/graphql';
 
 interface BlogDetailsProps {
   id: string;
 }
 
 export function BlogDetails({ id }: BlogDetailsProps) {
-  const { data, refetch } = useArticleDetailsQuery(
+  const { data, refetch } = useArticleQuery(
     { documentId: id },
     {
       select: (dt) => dt.article,

@@ -1,6 +1,11 @@
 'use client';
 
-import { Box, Grid2 as Grid, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Grid2 as Grid,
+  Typography,
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -12,7 +17,7 @@ import { useInfinityScroll } from '@/hooks';
 import { getNextPageParamFunc } from '@/services';
 
 export function Blogs() {
-  const { data, fetchNextPage } = useInfiniteArticlesQuery(
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteArticlesQuery(
     {
       sort: ['views:desc'],
       pagination: {
@@ -99,6 +104,9 @@ export function Blogs() {
         </Grid>
         {/* </motion.div> */}
         <Box ref={ref} />
+        {isFetchingNextPage && (
+          <CircularProgress color="inherit" sx={{ mx: 'auto' }} />
+        )}
       </Flex>
     </Flex>
   );

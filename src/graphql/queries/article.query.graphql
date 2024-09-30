@@ -1,4 +1,4 @@
-query ArticleDetails($documentId: ID!) {
+query Article($documentId: ID!) {
   article(documentId: $documentId) {
     ...Article
   }
