@@ -47,6 +47,7 @@ export type Article = {
   categories_connection?: Maybe<CategoryRelationResponseCollection>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description: Scalars['String']['output'];
   documentId: Scalars['ID']['output'];
   image: UploadFile;
   locale?: Maybe<Scalars['String']['output']>;
@@ -93,6 +94,7 @@ export type ArticleFiltersInput = {
   categories?: InputMaybe<CategoryFiltersInput>;
   content?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<ArticleFiltersInput>;
@@ -107,6 +109,7 @@ export type ArticleFiltersInput = {
 export type ArticleInput = {
   categories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   content?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1382,6 +1385,7 @@ export type ArticleFragment = {
   title: string;
   content?: string | null;
   views: number;
+  description: string;
   createdAt?: any | null;
   image: {
     __typename?: 'UploadFile';
@@ -1512,6 +1516,7 @@ export type UpdateArticleMutation = {
     title: string;
     content?: string | null;
     views: number;
+    description: string;
     createdAt?: any | null;
     image: {
       __typename?: 'UploadFile';
@@ -1541,6 +1546,7 @@ export type ArticleQuery = {
     title: string;
     content?: string | null;
     views: number;
+    description: string;
     createdAt?: any | null;
     image: {
       __typename?: 'UploadFile';
@@ -1578,6 +1584,7 @@ export type ArticlesQuery = {
       title: string;
       content?: string | null;
       views: number;
+      description: string;
       createdAt?: any | null;
       image: {
         __typename?: 'UploadFile';
@@ -1656,6 +1663,7 @@ export const ArticleFragmentDoc = `
     ...Category
   }
   views
+  description
   createdAt
 }
     `;
