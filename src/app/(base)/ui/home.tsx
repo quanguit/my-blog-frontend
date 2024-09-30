@@ -17,7 +17,7 @@ export function Home() {
     isFetchingNextPage,
   } = useInfiniteArticlesQuery(
     {
-      sort: ['updatedAt:desc'],
+      sort: ['publishedAt:desc'],
       pagination: {
         page: DEFAULT_PAGE,
         pageSize: PAGE_SIZE,
@@ -27,7 +27,7 @@ export function Home() {
       getNextPageParam: (lastPage) =>
         getNextPageParamFunc(lastPage.articles_connection?.pageInfo),
       initialPageParam: {
-        sort: ['updatedAt:desc'],
+        sort: ['publishedAt:desc'],
         pagination: {
           page: DEFAULT_PAGE,
           pageSize: PAGE_SIZE,
