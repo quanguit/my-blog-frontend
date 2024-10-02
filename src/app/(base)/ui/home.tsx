@@ -60,27 +60,25 @@ export function Home() {
             page.articles_connection?.nodes.map((article) => (
               <Grid
                 key={article.documentId}
+                component={motion.div}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                initial={{ y: 10, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.2 }}
               >
-                <motion.div
-                  initial={{ y: 10, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Card
-                    title={article.title}
-                    tags={article.categories.map(
-                      (category) => category?.name ?? '',
-                    )}
-                    image={article.image.url}
-                    href={allRoutes.blog[':id'].toURL({
-                      id: article.documentId,
-                    })}
-                    author={{ name: 'Quang Do', avatar: avatar.src }}
-                    createdDate={article.createdAt}
-                  />
-                </motion.div>
+                <Card
+                  title={article.title}
+                  tags={article.categories.map(
+                    (category) => category?.name ?? '',
+                  )}
+                  image={article.image.url}
+                  href={allRoutes.blog[':id'].toURL({
+                    id: article.documentId,
+                  })}
+                  author={{ name: 'Quang Do', avatar: avatar.src }}
+                  createdDate={article.createdAt}
+                />
               </Grid>
             )),
           )}
@@ -88,15 +86,16 @@ export function Home() {
             Array(4)
               .fill(null)
               .map((_, index) => (
-                <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                  <motion.div
-                    initial={{ y: 10, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Card isLoading />
-                  </motion.div>
+                <Grid
+                  component={motion.div}
+                  key={index}
+                  size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                  initial={{ y: 10, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card isLoading />
                 </Grid>
               ))}
         </Grid>

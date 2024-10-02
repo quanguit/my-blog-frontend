@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 
-import { DEFAULT_PAGE, PAGE_SIZE, REVALIDATE_TIME } from '@/constants';
+import { DEFAULT_PAGE, PAGE_SIZE } from '@/constants';
 import {
   useArticlesQuery,
   useBannersQuery,
@@ -11,7 +11,8 @@ import { getQueryClient } from '@/services';
 
 import { Home } from './ui/home';
 
-export const revalidate = REVALIDATE_TIME;
+// instead of using revalidate, we use webhooks to invalidate cache in server using src/app/api/revalidate/route.ts, can check in server using terminal and setup webhook in Strapi
+// export const revalidate = REVALIDATE_TIME;
 
 export const metadata: Metadata = {
   title: 'Home',

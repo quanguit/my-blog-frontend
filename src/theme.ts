@@ -65,6 +65,9 @@ export const lightTheme = createTheme({
           textTransform: 'none',
           color: '#181A2A',
         },
+        contained: {
+          color: '#FFFFFF',
+        },
       },
     },
     MuiSvgIcon: {
