@@ -1438,6 +1438,12 @@ export type CategoryFragment = {
   name: string;
 };
 
+export type MeFragment = {
+  __typename?: 'UsersPermissionsMe';
+  email?: string | null;
+  username: string;
+};
+
 export type PaginationFragment = {
   __typename?: 'Pagination';
   page: number;
@@ -1636,6 +1642,17 @@ export type BannersQuery = {
   } | null>;
 };
 
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = {
+  __typename?: 'Query';
+  me?: {
+    __typename?: 'UsersPermissionsMe';
+    email?: string | null;
+    username: string;
+  } | null;
+};
+
 export const UploadFileFragmentDoc = `
     fragment UploadFile on UploadFile {
   url
@@ -1688,6 +1705,12 @@ export const BannerFragmentDoc = `
   image {
     ...UploadFile
   }
+}
+    `;
+export const MeFragmentDoc = `
+    fragment Me on UsersPermissionsMe {
+  email
+  username
 }
     `;
 export const PaginationFragmentDoc = `
@@ -2063,3 +2086,63 @@ useBannersQuery.fetcher = (
     variables,
     options,
   );
+
+export const MeDocument = `
+    query Me {
+  me {
+    ...Me
+  }
+}
+    ${MeFragmentDoc}`;
+
+export const useMeQuery = <TData = MeQuery, TError = unknown>(
+  variables?: MeQueryVariables,
+  options?: Omit<UseQueryOptions<MeQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<MeQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<MeQuery, TError, TData>({
+    queryKey: variables === undefined ? ['Me'] : ['Me', variables],
+    queryFn: fetcher<MeQuery, MeQueryVariables>(MeDocument, variables),
+    ...options,
+  });
+};
+
+useMeQuery.getKey = (variables?: MeQueryVariables) =>
+  variables === undefined ? ['Me'] : ['Me', variables];
+
+export const useInfiniteMeQuery = <
+  TData = InfiniteData<MeQuery>,
+  TError = unknown,
+>(
+  variables: MeQueryVariables,
+  options: Omit<UseInfiniteQueryOptions<MeQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseInfiniteQueryOptions<MeQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useInfiniteQuery<MeQuery, TError, TData>(
+    (() => {
+      const { queryKey: optionsQueryKey, ...restOptions } = options;
+      return {
+        queryKey:
+          (optionsQueryKey ?? variables === undefined)
+            ? ['Me.infinite']
+            : ['Me.infinite', variables],
+        queryFn: (metaData) =>
+          fetcher<MeQuery, MeQueryVariables>(MeDocument, {
+            ...variables,
+            ...(metaData.pageParam ?? {}),
+          })(),
+        ...restOptions,
+      };
+    })(),
+  );
+};
+
+useInfiniteMeQuery.getKey = (variables?: MeQueryVariables) =>
+  variables === undefined ? ['Me.infinite'] : ['Me.infinite', variables];
+
+useMeQuery.fetcher = (
+  variables?: MeQueryVariables,
+  options?: RequestInit['headers'],
+) => fetcher<MeQuery, MeQueryVariables>(MeDocument, variables, options);

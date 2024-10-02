@@ -3,16 +3,16 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 
 import openGraphImage from '@/assets/images/bg-open-graph.jpg';
-import { ReactQueryProvider, ThemeProvider } from '@/providers';
+import { AuthProvider, ReactQueryProvider, ThemeProvider } from '@/providers';
 
 import './global.css';
 
 export const metadata: Metadata = {
   title: {
     template: '%s | Me Blog',
-    default: 'Layout',
+    default: 'Me Blog',
   },
-  description: 'This is layout',
+  description: 'This is Me Blog',
   openGraph: {
     images: [`${process.env.NEXT_PUBLIC_DOMAIN}${openGraphImage.src}`],
   },
@@ -28,7 +28,9 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider enableSystem={false}>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

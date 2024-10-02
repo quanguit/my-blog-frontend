@@ -37,7 +37,6 @@ export const Slider = (props: SliderProps) => {
             width: 'unset',
             height: 'unset',
             button: {
-              // padding: 1,
               width: 0,
               height: 0,
               borderRadius: 5,
@@ -49,7 +48,7 @@ export const Slider = (props: SliderProps) => {
             },
             '&.slick-active': {
               button: {
-                paddingX: 2,
+                paddingX: 1.5,
               },
             },
           },

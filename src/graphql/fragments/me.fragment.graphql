@@ -1,0 +1,4 @@
+fragment Me on UsersPermissionsMe {
+  email
+  username
+}

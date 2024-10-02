@@ -25,4 +25,5 @@
 5. Can use fetchNextPage to load more
 6. Homepage use View Load Post to load more post
 7. Blogpage use SCROLL to load more post
+8. Page for SEO shouldn't add authentication, shoud public routes
 
