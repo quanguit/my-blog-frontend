@@ -22,6 +22,7 @@ export const PRIVATE_ROUTES = {
     ':id': null,
   },
   contact: null,
+  search: null,
 };
 
 const ALL_ROUTES = {
@@ -31,4 +32,3 @@ const ALL_ROUTES = {
 
 export const apiEndpoints = transformRoutesToMap(API_ENDPOINTS);
 export const allRoutes = transformRoutesToMap(ALL_ROUTES);
-export const privateRoutes = [allRoutes['/'].toURL()];

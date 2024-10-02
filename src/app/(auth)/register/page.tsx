@@ -3,6 +3,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input } from '@/components';
@@ -10,9 +11,12 @@ import { PasswordInput } from '@/components/password-input';
 import { allRoutes } from '@/constants';
 import { registerSchema, RegiterInputDTO } from '@/features';
 import { useRegisterMutation } from '@/generated/graphql';
+import { useAuth } from '@/hooks';
 
 const RegisterPage = () => {
   const { mutate } = useRegisterMutation();
+  const router = useRouter();
+  const { refetchUser } = useAuth();
 
   const methods = useForm<RegiterInputDTO>({
     resolver: yupResolver(registerSchema),
@@ -22,17 +26,13 @@ const RegisterPage = () => {
 
   const [username, email, password] = watch(['username', 'email', 'password']);
 
-  const onSubmit: SubmitHandler<RegiterInputDTO> = (data) => {
+  const onSubmit: SubmitHandler<RegiterInputDTO> = (input) => {
     mutate(
+      { input },
       {
-        input: data,
-      },
-      {
-        onSuccess: (data) => {
-          console.log('data: ', data);
-        },
-        onError: (data) => {
-          console.log('data1: ', data);
+        onSuccess: () => {
+          refetchUser();
+          router.push(allRoutes['/'].toURL());
         },
       },
     );

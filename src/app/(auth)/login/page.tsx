@@ -3,15 +3,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, Input, PasswordInput } from '@/components';
 import { allRoutes } from '@/constants';
 import { LoginInputDTO, loginSchema } from '@/features';
 import { useLoginMutation } from '@/generated/graphql';
+import { useAuth } from '@/hooks';
 
 const LoginPage = () => {
   const { mutate } = useLoginMutation();
+  const router = useRouter();
+
+  const { refetchUser } = useAuth();
 
   const methods = useForm<LoginInputDTO>({
     resolver: yupResolver(loginSchema),
@@ -19,14 +24,13 @@ const LoginPage = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<LoginInputDTO> = (data) => {
+  const onSubmit: SubmitHandler<LoginInputDTO> = (input) => {
     mutate(
+      { input },
       {
-        input: data,
-      },
-      {
-        onSuccess: (res) => {
-          console.log(res);
+        onSuccess: () => {
+          refetchUser();
+          router.push(allRoutes['/'].toURL());
         },
       },
     );
