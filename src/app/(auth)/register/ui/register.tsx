@@ -69,12 +69,7 @@ export const Register = () => {
         <Button variant="contained" type="submit">
           Register
         </Button>
-        <Button
-          href={allRoutes.login.toURL()}
-          component={Link}
-          variant="text"
-          sx={{ mx: 'auto' }}
-        >
+        <Button href={allRoutes.login.toURL()} component={Link}>
           Login
         </Button>
       </Form>
