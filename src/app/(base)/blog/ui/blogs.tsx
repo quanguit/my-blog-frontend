@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Box,
-  CircularProgress,
-  Grid2 as Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Grid2 as Grid, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -17,31 +12,32 @@ import { useInfinityScroll } from '@/hooks';
 import { getNextPageParamFunc } from '@/services';
 
 export function Blogs() {
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteArticlesQuery(
-    {
-      sort: ['views:desc'],
-      pagination: {
-        page: DEFAULT_PAGE,
-        pageSize: PAGE_SIZE,
-      },
-    },
-    {
-      getNextPageParam: (lastPage) =>
-        getNextPageParamFunc(lastPage.articles_connection?.pageInfo),
-      initialPageParam: {
+  const { data, fetchNextPage, isFetchingNextPage, isFetching } =
+    useInfiniteArticlesQuery(
+      {
         sort: ['views:desc'],
         pagination: {
           page: DEFAULT_PAGE,
           pageSize: PAGE_SIZE,
         },
       },
-      select: (dt) => dt.pages,
-      // add staleTime to prevent re-fetching data when switching between tabs
-      staleTime: Infinity,
-      // default retry 4 times
-      retry: false,
-    },
-  );
+      {
+        getNextPageParam: (lastPage) =>
+          getNextPageParamFunc(lastPage.articles_connection?.pageInfo),
+        initialPageParam: {
+          sort: ['views:desc'],
+          pagination: {
+            page: DEFAULT_PAGE,
+            pageSize: PAGE_SIZE,
+          },
+        },
+        select: (dt) => dt.pages,
+        // add staleTime to prevent re-fetching data when switching between tabs
+        staleTime: Infinity,
+        // default retry 4 times
+        retry: false,
+      },
+    );
 
   const ref = useInfinityScroll(fetchNextPage);
 
@@ -75,27 +71,25 @@ export function Blogs() {
             page.articles_connection?.nodes.map((article) => (
               <Grid
                 key={article.documentId}
+                component={motion.div}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                initial={{ y: 10, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.2 }}
               >
-                <motion.div
-                  initial={{ y: 10, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Card
-                    title={article.title}
-                    tags={article.categories.map(
-                      (category) => category?.name ?? '',
-                    )}
-                    image={article.image.url}
-                    href={allRoutes.blog[':id'].toURL({
-                      id: article.documentId,
-                    })}
-                    author={{ name: 'Quang Do', avatar: avatar.src }}
-                    createdDate={article.createdAt}
-                  />
-                </motion.div>
+                <Card
+                  title={article.title}
+                  tags={article.categories.map(
+                    (category) => category?.name ?? '',
+                  )}
+                  image={article.image.url}
+                  href={allRoutes.blog[':id'].toURL({
+                    id: article.documentId,
+                  })}
+                  author={{ name: 'Quang Do', avatar: avatar.src }}
+                  createdDate={article.createdAt}
+                />
               </Grid>
             )),
           )}
@@ -103,22 +97,20 @@ export function Blogs() {
             Array(4)
               .fill(null)
               .map((_, index) => (
-                <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                  <motion.div
-                    initial={{ y: 10, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Card isLoading />
-                  </motion.div>
+                <Grid
+                  component={motion.div}
+                  key={index}
+                  size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                  initial={{ y: 10, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card isLoading />
                 </Grid>
               ))}
         </Grid>
-        <Box ref={ref} />
-        {isFetchingNextPage && (
-          <CircularProgress color="inherit" sx={{ mx: 'auto' }} />
-        )}
+        {!isFetching && <Box ref={ref} />}
       </Flex>
     </Flex>
   );
