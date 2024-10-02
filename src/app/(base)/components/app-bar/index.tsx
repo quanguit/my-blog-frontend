@@ -1,5 +1,6 @@
 'use client';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -15,14 +16,23 @@ import {
   ListItemText,
   AppBar as MUIAppBar,
   TextField as MUITextField,
+  Skeleton,
   Toolbar,
 } from '@mui/material';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { Icon } from '@/components';
+import { Form, Icon } from '@/components';
 import { allRoutes, SCREEN_NAME } from '@/constants';
+import { useLogoutMutation } from '@/features/auth/mutations';
+import {
+  SearchInputDTO,
+  searchSchema,
+} from '@/features/search/dtos/search.dto';
+import { useAuth } from '@/hooks';
 import { StyledSwitch } from '@/styles';
 
 const pages = [
@@ -42,9 +52,22 @@ const pages = [
 
 export const AppBar = () => {
   const { theme, setTheme } = useTheme();
+  const { mutateAsync } = useLogoutMutation();
+  const { user, isFetched } = useAuth();
+  const router = useRouter();
   const isDarkTheme = theme === 'dark';
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [searchKey, setSearchKey] = useState('');
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+
+  const q = searchParams.get('q') ?? '';
+
+  const methods = useForm<SearchInputDTO>({
+    resolver: yupResolver(searchSchema),
+    defaultValues: { q },
+  });
+
+  const { handleSubmit, register, reset } = methods;
 
   const handleOpenDrawer = () => {
     setIsOpenDrawer(true);
@@ -54,14 +77,27 @@ export const AppBar = () => {
     setIsOpenDrawer(false);
   };
 
+  const onSubmit: SubmitHandler<SearchInputDTO> = ({ q }) => {
+    router.push(allRoutes.search.toURL({ query: { q } }));
+  };
+
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={handleCloseDrawer}>
       <List>
         <ListItem disablePadding>
-          <ListItemButton disableTouchRipple>
+          <ListItemButton
+            disableTouchRipple
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+          >
             <StyledSwitch
+              checked={isDarkTheme}
+              onClick={(e) => e.stopPropagation()}
               onChange={(e) => {
-                e.stopPropagation();
+                setTheme(`${e.target.checked ? 'dark' : 'light'}`);
               }}
             />
           </ListItemButton>
@@ -78,9 +114,27 @@ export const AppBar = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem>
+          <ListItemButton
+            sx={{ justifyContent: 'center' }}
+            onClick={() => {
+              mutateAsync().then(() => {
+                router.push(allRoutes.login.toURL());
+              });
+            }}
+          >
+            Logout
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
+
+  useEffect(() => {
+    if (pathName !== allRoutes.search.toURL()) {
+      reset({ q: '' });
+    }
+  }, [pathName, reset]);
 
   return (
     <MUIAppBar position="static" enableColorOnDark>
@@ -123,22 +177,23 @@ export const AppBar = () => {
                 gap: 2,
               }}
             >
-              <MUITextField
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-                size="small"
-                sx={{ width: 180 }}
-                placeholder="Search"
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <IconButton aria-label="search">
-                        <SearchIcon />
-                      </IconButton>
-                    ),
-                  },
-                }}
-              />
+              <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                <MUITextField
+                  size="small"
+                  sx={{ width: 180 }}
+                  placeholder="Search"
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <IconButton aria-label="search" type="submit">
+                          <SearchIcon />
+                        </IconButton>
+                      ),
+                    },
+                  }}
+                  {...register('q')}
+                />
+              </Form>
               <StyledSwitch
                 sx={{ display: { xs: 'none', md: 'flex' } }}
                 checked={isDarkTheme}
@@ -146,6 +201,24 @@ export const AppBar = () => {
                   setTheme(`${e.target.checked ? 'dark' : 'light'}`)
                 }
               />
+              {!isFetched ? (
+                <Skeleton width="60px" />
+              ) : user ? (
+                <Button
+                  sx={{ display: { xs: 'none', md: 'flex' } }}
+                  onClick={() =>
+                    mutateAsync().then(() => {
+                      router.push(allRoutes.login.toURL());
+                    })
+                  }
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button component={Link} href={allRoutes.login.toURL()}>
+                  Login / Register
+                </Button>
+              )}
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton size="large" onClick={handleOpenDrawer}>

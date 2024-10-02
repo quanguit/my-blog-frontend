@@ -7,6 +7,7 @@ import { MeFragment, useMeQuery } from '@/generated/graphql';
 type AuthContextType = {
   user?: MeFragment | null;
   refetchUser: () => void;
+  isFetched?: boolean;
 };
 
 const initialAuthContext: AuthContextType = {
@@ -16,13 +17,15 @@ const initialAuthContext: AuthContextType = {
 export const AuthContext = createContext<AuthContextType>(initialAuthContext);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data, refetch } = useMeQuery(undefined, {
+  const { data, refetch, isFetched } = useMeQuery(undefined, {
     retry: false,
     staleTime: Infinity,
   });
 
   return (
-    <AuthContext.Provider value={{ user: data?.me, refetchUser: refetch }}>
+    <AuthContext.Provider
+      value={{ user: data?.me, refetchUser: refetch, isFetched }}
+    >
       {children}
     </AuthContext.Provider>
   );
