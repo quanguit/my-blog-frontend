@@ -3,7 +3,11 @@ import { ReactNode } from 'react';
 
 import { AppBar, Footer } from './components';
 
-export default function BaseLayout({ children }: { children: ReactNode }) {
+export default async function BaseLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <Box
       component="main"

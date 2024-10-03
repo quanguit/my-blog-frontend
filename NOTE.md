@@ -26,4 +26,5 @@
 6. Homepage use View Load Post to load more post
 7. Blogpage use SCROLL to load more post
 8. Page for SEO shouldn't add authentication, should public routes
+9. Don't need to use SSR because we don't know user will search whatever
 
