@@ -72,6 +72,18 @@ export const Register = () => {
         <Button href={allRoutes.login.toURL()} component={Link}>
           Login
         </Button>
+        <Typography align="center">
+          Please{' '}
+          <Typography
+            color="primary"
+            component={Link}
+            href={allRoutes['/'].toURL()}
+            sx={{ textDecoration: 'underline' }}
+          >
+            click here
+          </Typography>{' '}
+          to use without register
+        </Typography>
       </Form>
     </Container>
   );

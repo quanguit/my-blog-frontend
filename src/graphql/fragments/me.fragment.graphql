@@ -1,4 +1,5 @@
 fragment Me on UsersPermissionsMe {
+  id
   email
   username
 }

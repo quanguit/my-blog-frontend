@@ -8,13 +8,13 @@ export function middleware(request: NextRequest) {
   const jwt = cookies().get('jwt');
   const { pathname } = request.nextUrl;
 
-  if (jwt && publicRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
+  // if (jwt && publicRoutes.includes(pathname)) {
+  //   return NextResponse.redirect(new URL('/', request.url));
+  // }
 
-  if (!jwt && privateRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  // if (!jwt && privateRoutes.includes(pathname)) {
+  //   return NextResponse.redirect(new URL('/login', request.url));
+  // }
 
   return NextResponse.next();
 }

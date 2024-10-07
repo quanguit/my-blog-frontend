@@ -5,7 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { useArticleQuery, useArticlesQuery } from '@/generated/graphql';
+import {
+  useArticleQuery,
+  useArticlesQuery,
+  useCommentsQuery,
+} from '@/generated/graphql';
 import { getStrapiURL } from '@/services';
 
 import { BlogDetails } from './ui/blog-details';
@@ -51,6 +55,11 @@ export default async function BlogDetailsPage({ params: { id } }: Props) {
   await queryClient.prefetchQuery({
     queryKey: useArticleQuery.getKey({ documentId: id }),
     queryFn: useArticleQuery.fetcher({ documentId: id }),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: useCommentsQuery.getKey({ documentId: id }),
+    queryFn: useCommentsQuery.fetcher({ documentId: id }),
   });
 
   return (

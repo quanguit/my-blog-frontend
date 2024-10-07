@@ -69,6 +69,18 @@ export const Login = () => {
         <Button href={allRoutes.register.toURL()} component={Link}>
           Register
         </Button>
+        <Typography align="center">
+          Please{' '}
+          <Typography
+            color="primary"
+            component={Link}
+            href={allRoutes['/'].toURL()}
+            sx={{ textDecoration: 'underline' }}
+          >
+            click here
+          </Typography>{' '}
+          to use without login
+        </Typography>
       </Form>
     </Container>
   );

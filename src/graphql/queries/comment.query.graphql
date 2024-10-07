@@ -1,0 +1,8 @@
+query Comments($documentId: ID!) {
+  comments(
+    filters: { article: { documentId: { eq: $documentId } } }
+    sort: "createdAt:desc"
+  ) {
+    ...Comment
+  }
+}
