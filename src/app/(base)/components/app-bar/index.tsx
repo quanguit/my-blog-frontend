@@ -15,7 +15,6 @@ import {
   ListItemButton,
   ListItemText,
   AppBar as MUIAppBar,
-  TextField as MUITextField,
   Skeleton,
   Toolbar,
 } from '@mui/material';
@@ -25,13 +24,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { Form, Icon } from '@/components';
+import { Form, Icon, Input } from '@/components';
 import { allRoutes, SCREEN_NAME } from '@/constants';
 import { useLogoutMutation } from '@/features/auth/mutations';
-import {
-  SearchInputDTO,
-  searchSchema,
-} from '@/features/search/dtos/search.dto';
+import { SearchInputDTO, searchSchema } from '@/features/search';
 import { useAuth } from '@/hooks';
 import { StyledSwitch } from '@/styles';
 
@@ -178,7 +174,7 @@ export const AppBar = () => {
               }}
             >
               <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                <MUITextField
+                <Input
                   size="small"
                   sx={{ width: 180 }}
                   placeholder="Search"

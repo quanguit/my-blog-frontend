@@ -45,6 +45,8 @@ export type Article = {
   __typename?: 'Article';
   categories: Array<Maybe<Category>>;
   categories_connection?: Maybe<CategoryRelationResponseCollection>;
+  comments: Array<Maybe<Comment>>;
+  comments_connection?: Maybe<CommentRelationResponseCollection>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description: Scalars['String']['output'];
@@ -71,6 +73,18 @@ export type ArticleCategories_ConnectionArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type ArticleCommentsArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type ArticleComments_ConnectionArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
 export type ArticleLocalizationsArgs = {
   filters?: InputMaybe<ArticleFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -92,6 +106,7 @@ export type ArticleEntityResponseCollection = {
 export type ArticleFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>;
   categories?: InputMaybe<CategoryFiltersInput>;
+  comments?: InputMaybe<CommentFiltersInput>;
   content?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -108,6 +123,7 @@ export type ArticleFiltersInput = {
 
 export type ArticleInput = {
   categories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  comments?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   content?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
@@ -270,6 +286,66 @@ export type CategoryRelationResponseCollection = {
   nodes: Array<Category>;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  article?: Maybe<Article>;
+  content: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  locale?: Maybe<Scalars['String']['output']>;
+  localizations: Array<Maybe<Comment>>;
+  localizations_connection?: Maybe<CommentRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<UsersPermissionsUser>;
+};
+
+export type CommentLocalizationsArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type CommentLocalizations_ConnectionArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type CommentEntityResponseCollection = {
+  __typename?: 'CommentEntityResponseCollection';
+  nodes: Array<Comment>;
+  pageInfo: Pagination;
+};
+
+export type CommentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CommentFiltersInput>>>;
+  article?: InputMaybe<ArticleFiltersInput>;
+  content?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<CommentFiltersInput>;
+  not?: InputMaybe<CommentFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CommentFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type CommentInput = {
+  article?: InputMaybe<Scalars['ID']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type CommentRelationResponseCollection = {
+  __typename?: 'CommentRelationResponseCollection';
+  nodes: Array<Comment>;
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
@@ -335,6 +411,7 @@ export type GenericMorph =
   | Article
   | Banner
   | Category
+  | Comment
   | I18NLocale
   | ReviewWorkflowsWorkflow
   | ReviewWorkflowsWorkflowStage
@@ -475,6 +552,7 @@ export type Mutation = {
   createArticle?: Maybe<Article>;
   createBanner?: Maybe<Banner>;
   createCategory?: Maybe<Category>;
+  createComment?: Maybe<Comment>;
   createReviewWorkflowsWorkflow?: Maybe<ReviewWorkflowsWorkflow>;
   createReviewWorkflowsWorkflowStage?: Maybe<ReviewWorkflowsWorkflowStage>;
   /** Create a new role */
@@ -484,6 +562,7 @@ export type Mutation = {
   deleteArticle?: Maybe<DeleteMutationResponse>;
   deleteBanner?: Maybe<DeleteMutationResponse>;
   deleteCategory?: Maybe<DeleteMutationResponse>;
+  deleteComment?: Maybe<DeleteMutationResponse>;
   deleteReviewWorkflowsWorkflow?: Maybe<DeleteMutationResponse>;
   deleteReviewWorkflowsWorkflowStage?: Maybe<DeleteMutationResponse>;
   deleteUploadFile?: Maybe<UploadFile>;
@@ -503,6 +582,7 @@ export type Mutation = {
   updateArticle?: Maybe<Article>;
   updateBanner?: Maybe<Banner>;
   updateCategory?: Maybe<Category>;
+  updateComment?: Maybe<Comment>;
   updateReviewWorkflowsWorkflow?: Maybe<ReviewWorkflowsWorkflow>;
   updateReviewWorkflowsWorkflowStage?: Maybe<ReviewWorkflowsWorkflowStage>;
   updateUploadFile: UploadFile;
@@ -533,6 +613,11 @@ export type MutationCreateCategoryArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
+export type MutationCreateCommentArgs = {
+  data: CommentInput;
+  status?: InputMaybe<PublicationStatus>;
+};
+
 export type MutationCreateReviewWorkflowsWorkflowArgs = {
   data: ReviewWorkflowsWorkflowInput;
   status?: InputMaybe<PublicationStatus>;
@@ -560,6 +645,10 @@ export type MutationDeleteBannerArgs = {
 };
 
 export type MutationDeleteCategoryArgs = {
+  documentId: Scalars['ID']['input'];
+};
+
+export type MutationDeleteCommentArgs = {
   documentId: Scalars['ID']['input'];
 };
 
@@ -623,6 +712,12 @@ export type MutationUpdateCategoryArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
+export type MutationUpdateCommentArgs = {
+  data: CommentInput;
+  documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
 export type MutationUpdateReviewWorkflowsWorkflowArgs = {
   data: ReviewWorkflowsWorkflowInput;
   documentId: Scalars['ID']['input'];
@@ -681,6 +776,9 @@ export type Query = {
   categories: Array<Maybe<Category>>;
   categories_connection?: Maybe<CategoryEntityResponseCollection>;
   category?: Maybe<Category>;
+  comment?: Maybe<Comment>;
+  comments: Array<Maybe<Comment>>;
+  comments_connection?: Maybe<CommentEntityResponseCollection>;
   i18NLocale?: Maybe<I18NLocale>;
   i18NLocales: Array<Maybe<I18NLocale>>;
   i18NLocales_connection?: Maybe<I18NLocaleEntityResponseCollection>;
@@ -756,6 +854,25 @@ export type QueryCategories_ConnectionArgs = {
 
 export type QueryCategoryArgs = {
   documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
+export type QueryCommentArgs = {
+  documentId: Scalars['ID']['input'];
+  status?: InputMaybe<PublicationStatus>;
+};
+
+export type QueryCommentsArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  status?: InputMaybe<PublicationStatus>;
+};
+
+export type QueryComments_ConnectionArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -1302,6 +1419,8 @@ export type UsersPermissionsUpdateRolePayload = {
 export type UsersPermissionsUser = {
   __typename?: 'UsersPermissionsUser';
   blocked?: Maybe<Scalars['Boolean']['output']>;
+  comments: Array<Maybe<Comment>>;
+  comments_connection?: Maybe<CommentRelationResponseCollection>;
   confirmed?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
@@ -1314,6 +1433,18 @@ export type UsersPermissionsUser = {
   role?: Maybe<UsersPermissionsRole>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   username: Scalars['String']['output'];
+};
+
+export type UsersPermissionsUserCommentsArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type UsersPermissionsUserComments_ConnectionArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UsersPermissionsUserLocalizationsArgs = {
@@ -1342,6 +1473,7 @@ export type UsersPermissionsUserEntityResponseCollection = {
 export type UsersPermissionsUserFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
+  comments?: InputMaybe<CommentFiltersInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
   confirmed?: InputMaybe<BooleanFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -1362,6 +1494,7 @@ export type UsersPermissionsUserFiltersInput = {
 
 export type UsersPermissionsUserInput = {
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
+  comments?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
   confirmed?: InputMaybe<Scalars['Boolean']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -1438,8 +1571,22 @@ export type CategoryFragment = {
   name: string;
 };
 
+export type CommentFragment = {
+  __typename?: 'Comment';
+  documentId: string;
+  content: string;
+  createdAt?: any | null;
+  user?: {
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+    username: string;
+    email: string;
+  } | null;
+};
+
 export type MeFragment = {
   __typename?: 'UsersPermissionsMe';
+  id: string;
   email?: string | null;
   username: string;
 };
@@ -1459,6 +1606,33 @@ export type UploadFileFragment = {
   height?: number | null;
   name: string;
   alternativeText?: string | null;
+};
+
+export type UserFragment = {
+  __typename?: 'UsersPermissionsUser';
+  documentId: string;
+  username: string;
+  email: string;
+};
+
+export type CreateCommentMutationVariables = Exact<{
+  data: CommentInput;
+}>;
+
+export type CreateCommentMutation = {
+  __typename?: 'Mutation';
+  createComment?: {
+    __typename?: 'Comment';
+    documentId: string;
+    content: string;
+    createdAt?: any | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+      email: string;
+    } | null;
+  } | null;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -1642,12 +1816,33 @@ export type BannersQuery = {
   } | null>;
 };
 
+export type CommentsQueryVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type CommentsQuery = {
+  __typename?: 'Query';
+  comments: Array<{
+    __typename?: 'Comment';
+    documentId: string;
+    content: string;
+    createdAt?: any | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+      email: string;
+    } | null;
+  } | null>;
+};
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
   __typename?: 'Query';
   me?: {
     __typename?: 'UsersPermissionsMe';
+    id: string;
     email?: string | null;
     username: string;
   } | null;
@@ -1707,8 +1902,26 @@ export const BannerFragmentDoc = `
   }
 }
     `;
+export const UserFragmentDoc = `
+    fragment User on UsersPermissionsUser {
+  documentId
+  username
+  email
+}
+    `;
+export const CommentFragmentDoc = `
+    fragment Comment on Comment {
+  documentId
+  content
+  createdAt
+  user {
+    ...User
+  }
+}
+    `;
 export const MeFragmentDoc = `
     fragment Me on UsersPermissionsMe {
+  id
   email
   username
 }
@@ -1721,6 +1934,49 @@ export const PaginationFragmentDoc = `
   total
 }
     `;
+export const CreateCommentDocument = `
+    mutation CreateComment($data: CommentInput!) {
+  createComment(data: $data) {
+    ...Comment
+  }
+}
+    ${CommentFragmentDoc}
+${UserFragmentDoc}`;
+
+export const useCreateCommentMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateCommentMutation,
+    TError,
+    CreateCommentMutationVariables,
+    TContext
+  >,
+) => {
+  return useMutation<
+    CreateCommentMutation,
+    TError,
+    CreateCommentMutationVariables,
+    TContext
+  >({
+    mutationKey: ['CreateComment'],
+    mutationFn: (variables?: CreateCommentMutationVariables) =>
+      fetcher<CreateCommentMutation, CreateCommentMutationVariables>(
+        CreateCommentDocument,
+        variables,
+      )(),
+    ...options,
+  });
+};
+
+useCreateCommentMutation.fetcher = (
+  variables: CreateCommentMutationVariables,
+  options?: RequestInit['headers'],
+) =>
+  fetcher<CreateCommentMutation, CreateCommentMutationVariables>(
+    CreateCommentDocument,
+    variables,
+    options,
+  );
+
 export const LoginDocument = `
     mutation Login($input: UsersPermissionsLoginInput!) {
   login(input: $input) {
@@ -2083,6 +2339,86 @@ useBannersQuery.fetcher = (
 ) =>
   fetcher<BannersQuery, BannersQueryVariables>(
     BannersDocument,
+    variables,
+    options,
+  );
+
+export const CommentsDocument = `
+    query Comments($documentId: ID!) {
+  comments(
+    filters: {article: {documentId: {eq: $documentId}}}
+    sort: "createdAt:desc"
+  ) {
+    ...Comment
+  }
+}
+    ${CommentFragmentDoc}
+${UserFragmentDoc}`;
+
+export const useCommentsQuery = <TData = CommentsQuery, TError = unknown>(
+  variables: CommentsQueryVariables,
+  options?: Omit<UseQueryOptions<CommentsQuery, TError, TData>, 'queryKey'> & {
+    queryKey?: UseQueryOptions<CommentsQuery, TError, TData>['queryKey'];
+  },
+) => {
+  return useQuery<CommentsQuery, TError, TData>({
+    queryKey: ['Comments', variables],
+    queryFn: fetcher<CommentsQuery, CommentsQueryVariables>(
+      CommentsDocument,
+      variables,
+    ),
+    ...options,
+  });
+};
+
+useCommentsQuery.getKey = (variables: CommentsQueryVariables) => [
+  'Comments',
+  variables,
+];
+
+export const useInfiniteCommentsQuery = <
+  TData = InfiniteData<CommentsQuery>,
+  TError = unknown,
+>(
+  variables: CommentsQueryVariables,
+  options: Omit<
+    UseInfiniteQueryOptions<CommentsQuery, TError, TData>,
+    'queryKey'
+  > & {
+    queryKey?: UseInfiniteQueryOptions<
+      CommentsQuery,
+      TError,
+      TData
+    >['queryKey'];
+  },
+) => {
+  return useInfiniteQuery<CommentsQuery, TError, TData>(
+    (() => {
+      const { queryKey: optionsQueryKey, ...restOptions } = options;
+      return {
+        queryKey: optionsQueryKey ?? ['Comments.infinite', variables],
+        queryFn: (metaData) =>
+          fetcher<CommentsQuery, CommentsQueryVariables>(CommentsDocument, {
+            ...variables,
+            ...(metaData.pageParam ?? {}),
+          })(),
+        ...restOptions,
+      };
+    })(),
+  );
+};
+
+useInfiniteCommentsQuery.getKey = (variables: CommentsQueryVariables) => [
+  'Comments.infinite',
+  variables,
+];
+
+useCommentsQuery.fetcher = (
+  variables: CommentsQueryVariables,
+  options?: RequestInit['headers'],
+) =>
+  fetcher<CommentsQuery, CommentsQueryVariables>(
+    CommentsDocument,
     variables,
     options,
   );

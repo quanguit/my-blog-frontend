@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
 
   const result = await res.json();
 
+  // check UnAuhorized 401 by result.error.status === 401
+
   const authData = result.data?.login || result.data?.register;
 
   if (authData?.jwt) {
