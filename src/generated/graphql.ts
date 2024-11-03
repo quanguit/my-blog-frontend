@@ -47,14 +47,11 @@ export type Article = {
   categories_connection?: Maybe<CategoryRelationResponseCollection>;
   comments: Array<Maybe<Comment>>;
   comments_connection?: Maybe<CommentRelationResponseCollection>;
-  content?: Maybe<Scalars['String']['output']>;
+  content: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description: Scalars['String']['output'];
   documentId: Scalars['ID']['output'];
   image: UploadFile;
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<Article>>;
-  localizations_connection?: Maybe<ArticleRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -81,18 +78,6 @@ export type ArticleCommentsArgs = {
 
 export type ArticleComments_ConnectionArgs = {
   filters?: InputMaybe<CommentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type ArticleLocalizationsArgs = {
-  filters?: InputMaybe<ArticleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type ArticleLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<ArticleFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
@@ -143,23 +128,8 @@ export type Banner = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
   image: UploadFile;
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<Banner>>;
-  localizations_connection?: Maybe<BannerRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type BannerLocalizationsArgs = {
-  filters?: InputMaybe<BannerFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type BannerLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<BannerFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type BannerEntityResponseCollection = {
@@ -184,11 +154,6 @@ export type BannerInput = {
   image?: InputMaybe<Scalars['ID']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type BannerRelationResponseCollection = {
-  __typename?: 'BannerRelationResponseCollection';
-  nodes: Array<Banner>;
 };
 
 export type BooleanFilterInput = {
@@ -222,9 +187,6 @@ export type Category = {
   articles_connection?: Maybe<ArticleRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<Category>>;
-  localizations_connection?: Maybe<CategoryRelationResponseCollection>;
   name: Scalars['String']['output'];
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -238,18 +200,6 @@ export type CategoryArticlesArgs = {
 
 export type CategoryArticles_ConnectionArgs = {
   filters?: InputMaybe<ArticleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type CategoryLocalizationsArgs = {
-  filters?: InputMaybe<CategoryFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type CategoryLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<CategoryFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
@@ -292,24 +242,9 @@ export type Comment = {
   content: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<Comment>>;
-  localizations_connection?: Maybe<CommentRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<UsersPermissionsUser>;
-};
-
-export type CommentLocalizationsArgs = {
-  filters?: InputMaybe<CommentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type CommentLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<CommentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type CommentEntityResponseCollection = {
@@ -425,24 +360,9 @@ export type I18NLocale = {
   code?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<I18NLocale>>;
-  localizations_connection?: Maybe<I18NLocaleRelationResponseCollection>;
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type I18NLocaleLocalizationsArgs = {
-  filters?: InputMaybe<I18NLocaleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type I18NLocaleLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<I18NLocaleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type I18NLocaleEntityResponseCollection = {
@@ -463,11 +383,6 @@ export type I18NLocaleFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<I18NLocaleFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type I18NLocaleRelationResponseCollection = {
-  __typename?: 'I18NLocaleRelationResponseCollection';
-  nodes: Array<I18NLocale>;
 };
 
 export type IdFilterInput = {
@@ -995,26 +910,11 @@ export type ReviewWorkflowsWorkflow = {
   contentTypes: Scalars['JSON']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<ReviewWorkflowsWorkflow>>;
-  localizations_connection?: Maybe<ReviewWorkflowsWorkflowRelationResponseCollection>;
   name: Scalars['String']['output'];
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   stages: Array<Maybe<ReviewWorkflowsWorkflowStage>>;
   stages_connection?: Maybe<ReviewWorkflowsWorkflowStageRelationResponseCollection>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type ReviewWorkflowsWorkflowLocalizationsArgs = {
-  filters?: InputMaybe<ReviewWorkflowsWorkflowFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type ReviewWorkflowsWorkflowLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<ReviewWorkflowsWorkflowFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type ReviewWorkflowsWorkflowStagesArgs = {
@@ -1058,35 +958,15 @@ export type ReviewWorkflowsWorkflowInput = {
   stages?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
 };
 
-export type ReviewWorkflowsWorkflowRelationResponseCollection = {
-  __typename?: 'ReviewWorkflowsWorkflowRelationResponseCollection';
-  nodes: Array<ReviewWorkflowsWorkflow>;
-};
-
 export type ReviewWorkflowsWorkflowStage = {
   __typename?: 'ReviewWorkflowsWorkflowStage';
   color?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<ReviewWorkflowsWorkflowStage>>;
-  localizations_connection?: Maybe<ReviewWorkflowsWorkflowStageRelationResponseCollection>;
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   workflow?: Maybe<ReviewWorkflowsWorkflow>;
-};
-
-export type ReviewWorkflowsWorkflowStageLocalizationsArgs = {
-  filters?: InputMaybe<ReviewWorkflowsWorkflowStageFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type ReviewWorkflowsWorkflowStageLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<ReviewWorkflowsWorkflowStageFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type ReviewWorkflowsWorkflowStageEntityResponseCollection = {
@@ -1158,9 +1038,6 @@ export type UploadFile = {
   formats?: Maybe<Scalars['JSON']['output']>;
   hash: Scalars['String']['output'];
   height?: Maybe<Scalars['Int']['output']>;
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<UploadFile>>;
-  localizations_connection?: Maybe<UploadFileRelationResponseCollection>;
   mime: Scalars['String']['output'];
   name: Scalars['String']['output'];
   previewUrl?: Maybe<Scalars['String']['output']>;
@@ -1172,18 +1049,6 @@ export type UploadFile = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   url: Scalars['String']['output'];
   width?: Maybe<Scalars['Int']['output']>;
-};
-
-export type UploadFileLocalizationsArgs = {
-  filters?: InputMaybe<UploadFileFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type UploadFileLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<UploadFileFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UploadFileEntityResponseCollection = {
@@ -1217,11 +1082,6 @@ export type UploadFileFiltersInput = {
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   url?: InputMaybe<StringFilterInput>;
   width?: InputMaybe<IntFilterInput>;
-};
-
-export type UploadFileRelationResponseCollection = {
-  __typename?: 'UploadFileRelationResponseCollection';
-  nodes: Array<UploadFile>;
 };
 
 export type UsersPermissionsCreateRolePayload = {
@@ -1274,24 +1134,9 @@ export type UsersPermissionsPermission = {
   action: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<UsersPermissionsPermission>>;
-  localizations_connection?: Maybe<UsersPermissionsPermissionRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   role?: Maybe<UsersPermissionsRole>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type UsersPermissionsPermissionLocalizationsArgs = {
-  filters?: InputMaybe<UsersPermissionsPermissionFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type UsersPermissionsPermissionLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<UsersPermissionsPermissionFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UsersPermissionsPermissionFiltersInput = {
@@ -1324,9 +1169,6 @@ export type UsersPermissionsRole = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   documentId: Scalars['ID']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<UsersPermissionsRole>>;
-  localizations_connection?: Maybe<UsersPermissionsRoleRelationResponseCollection>;
   name: Scalars['String']['output'];
   permissions: Array<Maybe<UsersPermissionsPermission>>;
   permissions_connection?: Maybe<UsersPermissionsPermissionRelationResponseCollection>;
@@ -1335,18 +1177,6 @@ export type UsersPermissionsRole = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   users: Array<Maybe<UsersPermissionsUser>>;
   users_connection?: Maybe<UsersPermissionsUserRelationResponseCollection>;
-};
-
-export type UsersPermissionsRoleLocalizationsArgs = {
-  filters?: InputMaybe<UsersPermissionsRoleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type UsersPermissionsRoleLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<UsersPermissionsRoleFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UsersPermissionsRolePermissionsArgs = {
@@ -1406,11 +1236,6 @@ export type UsersPermissionsRoleInput = {
   users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
 };
 
-export type UsersPermissionsRoleRelationResponseCollection = {
-  __typename?: 'UsersPermissionsRoleRelationResponseCollection';
-  nodes: Array<UsersPermissionsRole>;
-};
-
 export type UsersPermissionsUpdateRolePayload = {
   __typename?: 'UsersPermissionsUpdateRolePayload';
   ok: Scalars['Boolean']['output'];
@@ -1425,9 +1250,6 @@ export type UsersPermissionsUser = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
   email: Scalars['String']['output'];
-  locale?: Maybe<Scalars['String']['output']>;
-  localizations: Array<Maybe<UsersPermissionsUser>>;
-  localizations_connection?: Maybe<UsersPermissionsUserRelationResponseCollection>;
   provider?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   role?: Maybe<UsersPermissionsRole>;
@@ -1443,18 +1265,6 @@ export type UsersPermissionsUserCommentsArgs = {
 
 export type UsersPermissionsUserComments_ConnectionArgs = {
   filters?: InputMaybe<CommentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type UsersPermissionsUserLocalizationsArgs = {
-  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type UsersPermissionsUserLocalizations_ConnectionArgs = {
-  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
@@ -1516,7 +1326,7 @@ export type ArticleFragment = {
   __typename?: 'Article';
   documentId: string;
   title: string;
-  content?: string | null;
+  content: string;
   views: number;
   description: string;
   createdAt?: any | null;
@@ -1694,7 +1504,7 @@ export type UpdateArticleMutation = {
     __typename?: 'Article';
     documentId: string;
     title: string;
-    content?: string | null;
+    content: string;
     views: number;
     description: string;
     createdAt?: any | null;
@@ -1724,7 +1534,7 @@ export type ArticleQuery = {
     __typename?: 'Article';
     documentId: string;
     title: string;
-    content?: string | null;
+    content: string;
     views: number;
     description: string;
     createdAt?: any | null;
@@ -1762,7 +1572,7 @@ export type ArticlesQuery = {
       __typename?: 'Article';
       documentId: string;
       title: string;
-      content?: string | null;
+      content: string;
       views: number;
       description: string;
       createdAt?: any | null;
