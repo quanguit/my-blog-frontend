@@ -197,7 +197,6 @@ export function BlogDetails({ id }: BlogDetailsProps) {
         <Input
           multiline
           rows={4}
-          maxRows={4}
           placeholder="Leave your comments here ..."
           {...register('input')}
         />
