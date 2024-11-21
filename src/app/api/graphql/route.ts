@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
+import { getStrapiURL } from '@/services';
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const incomingHeaders = request.headers;
@@ -18,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/graphql`, {
+  const res = await fetch(getStrapiURL('/graphql'), {
     method: 'POST',
     headers: customHeaders,
     body: JSON.stringify(body),
