@@ -1,0 +1,10 @@
+services:
+  blog-frontend:
+    container_name: blog-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: blog-frontend
+    restart: always
+    ports:
+      - '3000:3000'

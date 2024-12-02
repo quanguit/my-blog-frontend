@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import { BannerFragment } from '@/generated/graphql';
+import { getStrapiURL } from '@/services';
 
 interface SliderProps extends Omit<BoxProps, 'draggable'> {
   // If get all properties in images, we can use Banner type
@@ -67,7 +68,7 @@ export const Slider = (props: SliderProps) => {
           sx={{ aspectRatio: 3 }}
         >
           <Image
-            src={`http://localhost:1337${img.image.url}`}
+            src={getStrapiURL(img.image.url)}
             fill
             sizes="100vw"
             style={{

@@ -38,11 +38,16 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const data = await useArticlesQuery.fetcher()();
+  try {
+    const data = await useArticlesQuery.fetcher()();
 
-  return (data.articles_connection?.nodes ?? []).map((article) => ({
-    id: article.documentId,
-  }));
+    return (data.articles_connection?.nodes ?? []).map((article) => ({
+      id: article.documentId,
+    }));
+  } catch (error) {
+    console.error('Error generating static params in blog id:', error);
+    return [];
+  }
 }
 
 export default async function BlogDetailsPage({ params: { id } }: Props) {

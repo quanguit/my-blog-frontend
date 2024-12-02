@@ -10,9 +10,14 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import {
+  StaticImageData,
+  StaticImport,
+} from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { getStrapiURL } from '@/services';
 
 export interface Author {
   name: string;
@@ -68,7 +73,7 @@ export function Card({
             <Skeleton variant="rectangular" width="100%" height="100%" />
           ) : (
             <Image
-              src={`http://localhost:1337${image}`}
+              src={`${getStrapiURL(typeof image == 'string' ? image : (image as StaticImageData).src)}`}
               fill
               sizes="100vw"
               style={{
