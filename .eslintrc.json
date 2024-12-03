@@ -11,7 +11,8 @@
     "@next/eslint-plugin-next" // https://github.com/vercel/next.js/blob/canary/packages/eslint-plugin-next/lib/index.js
   ],
   "rules": {
-    "@next/next/no-html-link-for-pages": "off"
+    "@next/next/no-html-link-for-pages": "off",
+    "semi": ["error", "always"]
   },
   "settings": {
     "next": {
