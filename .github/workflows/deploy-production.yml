@@ -1,0 +1,33 @@
+name: Deploy to Production
+
+on:
+  workflow_run:
+    workflows: ["Docker Build & Push"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: SSH into VPS and Deploy
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Pulling the latest image from GitHub Container Registry"
+            docker pull ghcr.io/${{ github.repository_owner }}/my-blog-frontend:latest
+
+            echo "Stopping and removing the existing container"
+            docker stop my-blog-frontend || true
+            docker rm my-blog-frontend || true
+
+            echo "Starting a new container"
+            docker run -d --name my-blog-frontend -p 80:80 ghcr.io/${{ github.repository_owner }}/my-blog-frontend:latest
