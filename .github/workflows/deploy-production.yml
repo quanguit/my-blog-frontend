@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: success()  # Only run this job if Docker Build & Push was successful
 
     steps:
       - name: Checkout Repository
