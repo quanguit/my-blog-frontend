@@ -1,10 +1,19 @@
+# This run for local development
+# services:
+#   blog-frontend:
+#     container_name: blog-frontend
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     image: blog-frontend
+#     restart: always
+#     ports:
+#       - '3000:3000'
+
 services:
   blog-frontend:
     container_name: blog-frontend
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: blog-frontend
+    image: ghcr.io/quanguit/my-blog-frontend:latest
     restart: always
     ports:
       - '3000:3000'
