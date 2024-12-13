@@ -14,7 +14,6 @@ const ErrorPage = ({
   reset: () => void;
 }) => {
   const [message, setMessage] = useState<string | null>(null);
-  console.log('a');
 
   useEffect(() => {
     setMessage(error.message);
