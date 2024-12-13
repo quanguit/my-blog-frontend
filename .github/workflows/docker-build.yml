@@ -9,6 +9,7 @@ on:
 jobs:
   docker_build:
     runs-on: ubuntu-latest
+    if: success() # Only run this job if the build job was successful
 
     steps:
       - name: Checkout Repository
